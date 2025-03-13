@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAXIRON Bridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="top-nav">
+            <div class="nav-left">
+                <span class="nav-title">Tools > Bridge</span>
+            </div>
+            <div class="nav-right">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search Events">
+                    <span class="shortcut">Ctrl+K</span>
+                </div>
+                <button id="walletConnect" class="wallet-btn">Connect Wallet</button>
+            </div>
+        </nav>
+
+        <div class="command-center">
+            <h2>Command Center</h2>
+            <div class="network-selector">
+                <button class="network-btn">Networks <i class="fas fa-chevron-down"></i></button>
+            </div>
+            <div class="command-grid">
+                <button class="cmd-btn">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Send</span>
+                </button>
+                <button class="cmd-btn">
+                    <i class="fas fa-arrow-down"></i>
+                    <span>Receive</span>
+                </button>
+                <button class="cmd-btn active">
+                    <i class="fas fa-bridge"></i>
+                    <span>Bridge</span>
+                </button>
+                <button class="cmd-btn">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Swap</span>
+                </button>
+                <button class="cmd-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Buy</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="bridge-section">
+            <div class="bridge-header">
+                <h2>Bridge</h2>
+                <button class="network-btn">Networks <i class="fas fa-chevron-down"></i></button>
+            </div>
+
+            <div class="transfer-container">
+                <div class="transfer-box from-box">
+                    <div class="box-header">
+                        <h3>From</h3>
+                        <button class="network-select">Networks <i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <div class="token-input">
+                        <button class="token-select">
+                            <img src="assets/placeholder.png" alt="Token">
+                            <span>Select Token</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <input type="number" placeholder="0.0">
+                        <span class="balance">Balance: -</span>
+                        <span class="usd-value">USD</span>
+                    </div>
+                </div>
+
+                <button class="switch-direction">
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+
+                <div class="transfer-box to-box">
+                    <div class="box-header">
+                        <h3>To</h3>
+                        <button class="network-select">Network <i class="fas fa-chevron-down"></i></button>
+                    </div>
+                    <div class="token-input">
+                        <button class="token-select">
+                            <img src="assets/placeholder.png" alt="Token">
+                            <span>Select Token</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <input type="number" placeholder="0.0" disabled>
+                        <span class="balance">Balance: -</span>
+                        <span class="usd-value">USD</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fee-info">
+                <div class="fee-row">
+                    <span>Bridge Fees <i class="fas fa-info-circle"></i></span>
+                    <span>-</span>
+                </div>
+                <div class="fee-row">
+                    <span>Gas Fees <i class="fas fa-info-circle"></i></span>
+                    <span>-</span>
+                </div>
+                <div class="fee-row">
+                    <span>Receive</span>
+                    <span>Amount</span>
+                </div>
+            </div>
+
+            <button class="connect-wallet-bridge">Connect Wallet to Bridge</button>
+        </div>
+    </div>
+
+    <style>
+        :root {
+            --background: #0a0b1e;
+            --card-bg: #1a1a2e;
+            --primary: #ff3366;
+            --secondary: #7289da;
+            --text: #ffffff;
+            --text-secondary: #888888;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            color: var(--text);
+            margin: 0 10px;
+            outline: none;
+        }
+
+        .shortcut {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .wallet-btn {
+            background: white;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .command-center {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .cmd-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: 8px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cmd-btn.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+
+        .bridge-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .transfer-container {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .transfer-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .token-input {
+            display: grid;
+            gap: 10px;
+        }
+
+        .token-select {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .token-select img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .switch-direction {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: none;
+            color: white;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .fee-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .connect-wallet-bridge {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .cmd-btn:hover {
+            animation: pulse 1s infinite;
+        }
+
+        .connect-wallet-bridge:hover {
+            animation: pulse 1s infinite;
+        }
+    </style>
+
+    <script>
+        // Network configurations
+        const networks = {
+            ethereum: {
+                name: 'Ethereum',
+                icon: 'eth.png',
+                chainId: '0x1',
+                rpcUrl: 'https://mainnet.infura.io/v3/YOUR_INFURA_KEY'
+            },
+            avalanche: {
+                name: 'Avalanche',
+                icon: 'avax.png',
+                chainId: '0xa86a',
+                rpcUrl: 'https://api.avax.network/ext/bc/C/rpc'
+            },
+            binance: {
+                name: 'BNB Chain',
+                icon: 'bnb.png',
+                chainId: '0x38',
+                rpcUrl: 'https://bsc-dataseed.binance.org'
+            },
+            polygon: {
+                name: 'Polygon',
+                icon: 'matic.png',
+                chainId: '0x89',
+                rpcUrl: 'https://polygon-rpc.com'
+            }
+        };
+
+        // Initialize wallet connection
+        document.getElementById('walletConnect').addEventListener('click', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    document.getElementById('walletConnect').textContent = 'Connected';
+                    // Enable bridge button
+                    document.querySelector('.connect-wallet-bridge').textContent = 'Bridge Assets';
+                } catch (error) {
+                    console.error('User denied account access');
+                }
+            } else {
+                alert('Please install MetaMask!');
+            }
+        });
+
+        // Add network switching functionality
+        function switchNetwork(networkId) {
+            // Implementation for network switching
+        }
+
+        // Add token selection functionality
+        function selectToken(tokenSymbol) {
+            // Implementation for token selection
+        }
+    </script>
+</body>
+</html>
+
+<!-- Token Selection Modal -->
+<div id="tokenModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Select Token</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <input type="text" id="tokenSearch" placeholder="Search from 1000+ tokens..." class="token-search">
+        <div class="token-list" id="tokenList"></div>
+    </div>
+</div>
+
+<!-- Network Selection Modal -->
+<div id="networkModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Select Network</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="network-list">
+            <div class="network-item" onclick="selectNetwork('ethereum')">
+                <img src="assets/eth.png" alt="ETH">
+                <div class="network-info">
+                    <span>Ethereum</span>
+                    <span class="network-status">Connected</span>
+                </div>
+            </div>
+            <div class="network-item" onclick="selectNetwork('bsc')">
+                <img src="assets/bnb.png" alt="BNB">
+                <div class="network-info">
+                    <span>BNB Chain</span>
+                </div>
+            </div>
+            <div class="network-item" onclick="selectNetwork('avalanche')">
+                <img src="assets/avax.png" alt="AVAX">
+                <div class="network-info">
+                    <span>Avalanche</span>
+                </div>
+            </div>
+            <div class="network-item" onclick="selectNetwork('polygon')">
+                <img src="assets/matic.png" alt="MATIC">
+                <div class="network-info">
+                    <span>Polygon</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .close-modal {
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .token-search {
+        width: 100%;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        margin-bottom: 15px;
+    }
+
+    .token-list, .network-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .token-item, .network-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .token-item:hover, .network-item:hover {
+        background: rgba(255, 51, 102, 0.1);
+    }
+
+    .token-item img, .network-item img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+    }
+
+    .network-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .network-status {
+        font-size: 12px;
+        color: #00ff00;
+    }
+</style>
+
+<script>
+    // Token list from CoinGecko API
+    async function loadTokens() {
+        try {
+            const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=1000&page=1');
+            const tokens = await response.json();
+            const tokenList = document.getElementById('tokenList');
+            
+            tokens.forEach(token => {
+                const tokenElement = document.createElement('div');
+                tokenElement.className = 'token-item';
+                tokenElement.onclick = () => selectToken(token);
+                tokenElement.innerHTML = `
+                    <img src="${token.image}" alt="${token.symbol}">
+                    <div class="token-info">
+                        <div>${token.symbol.toUpperCase()}</div>
+                        <div class="token-price">$${token.current_price.toFixed(2)}</div>
+                    </div>
+                    <div class="token-balance"></div>
+                `;
+                tokenList.appendChild(tokenElement);
+            });
+        } catch (error) {
+            console.error('Error loading tokens:', error);
+        }
+    }
+
+    // Show token modal
+    function showTokenModal() {
+        document.getElementById('tokenModal').style.display = 'block';
+    }
+
+    // Show network modal
+    function showNetworkModal() {
+        document.getElementById('networkModal').style.display = 'block';
+    }
+
+    // Close modals when clicking outside
+    window.onclick = function(event) {
+        if (event.target.className === 'modal') {
+            event.target.style.display = 'none';
+        }
+    }
+
+    // Token selection
+    function selectToken(token) {
+        const tokenSelect = document.querySelector('.token-select');
+        tokenSelect.innerHTML = `
+            <img src="${token.image}" alt="${token.symbol}">
+            <span>${token.symbol.toUpperCase()}</span>
+            <i class="fas fa-chevron-down"></i>
+        `;
+        document.getElementById('tokenModal').style.display = 'none';
+    }
+
+    // Network selection
+    function selectNetwork(networkId) {
+        const network = networks[networkId];
+        const networkSelect = document.querySelector('.network-select');
+        networkSelect.innerHTML = `
+            <img src="assets/${network.icon}" alt="${network.name}">
+            <span>${network.name}</span>
+            <i class="fas fa-chevron-down"></i>
+        `;
+        document.getElementById('networkModal').style.display = 'none';
+    }
+
+    // Initialize token list
+    loadTokens();
+
+    // Add click events to token and network selectors
+    document.querySelectorAll('.token-select').forEach(btn => {
+        btn.addEventListener('click', showTokenModal);
+    });
+
+    document.querySelectorAll('.network-select, .network-btn').forEach(btn => {
+        btn.addEventListener('click', showNetworkModal);
+    });
+</script>
+<style>
+    /* Add after your existing styles */
+    .development-banner {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        padding: 10px 20px;
+        border-radius: 8px;
+        animation: glow 2s infinite, float 3s infinite;
+        z-index: 1000;
+        box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+    }
+
+    @keyframes glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(255, 51, 102, 0.5); }
+        50% { box-shadow: 0 0 40px rgba(255, 51, 102, 0.8); }
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .token-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .token-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .token-price {
+        color: var(--text-secondary);
+        font-size: 0.9em;
+    }
+
+    .network-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .network-item:hover, .token-item:hover {
+        background: rgba(255, 51, 102, 0.1);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 51, 102, 0.2);
+    }
+
+    .modal-content {
+        background: rgba(26, 26, 46, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 30px rgba(255, 51, 102, 0.2);
+    }
+</style>
+
+<!-- Add this right before closing body tag -->
+<div class="development-banner">
+    🚧 Under Development
+</div>
+
+<script>
+    // Update token loading function
+    async function loadTokens() {
+        try {
+            const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=1000&page=1&sparkline=false');
+            const tokens = await response.json();
+            const tokenList = document.getElementById('tokenList');
+            tokenList.innerHTML = ''; // Clear existing tokens
+            
+            tokens.forEach(token => {
+                const tokenElement = document.createElement('div');
+                tokenElement.className = 'token-item';
+                tokenElement.onclick = () => selectToken(token);
+                tokenElement.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <img src="${token.image}" alt="${token.symbol}" style="width: 32px; height: 32px; border-radius: 50%;">
+                        <div class="token-info">
+                            <div style="font-weight: 500;">${token.symbol.toUpperCase()}</div>
+                            <div style="font-size: 0.8em; color: var(--text-secondary);">${token.name}</div>
+                        </div>
+                    </div>
+                    <div class="token-price">$${token.current_price?.toFixed(2) || '0.00'}</div>
+                `;
+                tokenList.appendChild(tokenElement);
+            });
+        } catch (error) {
+            console.error('Error loading tokens:', error);
+            document.getElementById('tokenList').innerHTML = '<div style="padding: 20px; text-align: center;">Error loading tokens. Please try again later.</div>';
+        }
+    }
+
+    // Update network switching function
+    async function switchNetwork(networkId) {
+        try {
+            const network = networks[networkId];
+            if (!network) return;
+
+            await window.ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: network.chainId }],
+            });
+
+            updateNetworkUI(networkId);
+        } catch (error) {
+            console.error('Error switching network:', error);
+        }
+    }
+
+    // Update UI after network switch
+    function updateNetworkUI(networkId) {
+        const network = networks[networkId];
+        document.querySelectorAll('.network-select').forEach(select => {
+            select.innerHTML = `
+                <img src="assets/${network.icon}" alt="${network.name}">
+                <span>${network.name}</span>
+                <i class="fas fa-chevron-down"></i>
+            `;
+        });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTokens();
+        
+        // Add search functionality
+        document.getElementById('tokenSearch').addEventListener('input', (e) => {
+            const search = e.target.value.toLowerCase();
+            document.querySelectorAll('.token-item').forEach(item => {
+                const symbol = item.querySelector('.token-info div').textContent.toLowerCase();
+                const name = item.querySelector('.token-info div:last-child').textContent.toLowerCase();
+                item.style.display = symbol.includes(search) || name.includes(search) ? 'flex' : 'none';
+            });
+        });
+    });
+</script>
+<!-- Add this in the head section -->
+<head>
+    <!-- ... existing head content ... -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+</head>
+
+<!-- Update the style section -->
+<style>
+    /* Add these new animations and styles */
+    .glow-effect {
+        animation: glow 2s ease-in-out infinite;
+        position: relative;
+    }
+
+    .glow-effect::after {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border-radius: 16px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        z-index: -1;
+        filter: blur(15px);
+        opacity: 0.5;
+    }
+
+    .token-select, .network-select {
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .token-select:hover, .network-select:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 51, 102, 0.2);
+    }
+
+    .token-item {
+        background: rgba(255, 255, 255, 0.05);
+        margin: 5px 0;
+        padding: 15px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .token-item:hover {
+        background: rgba(255, 51, 102, 0.1);
+        border-color: var(--primary);
+        transform: scale(1.02);
+    }
+
+    .token-info {
+        flex: 1;
+        margin-left: 15px;
+    }
+
+    .token-price {
+        font-size: 0.9em;
+        color: var(--text-secondary);
+    }
+
+    .bridge-section {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bridge-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        opacity: 0.05;
+        z-index: 0;
+    }
+
+    .connect-wallet-bridge {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: white;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .connect-wallet-bridge::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: 0.5s;
+    }
+
+    .connect-wallet-bridge:hover::before {
+        left: 100%;
+    }
+
+    .switch-direction {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translate(-50%, -50%); }
+        50% { transform: translate(-50%, -60%); }
+    }
+
+    .modal-content {
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from { transform: translate(-50%, -40%); opacity: 0; }
+        to { transform: translate(-50%, -50%); opacity: 1; }
+    }
+</style>
+
+<!-- Update the token loading function in your script -->
+<script>
+    async function loadTokens() {
+        try {
+            const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=1000&page=1&sparkline=false');
+            const tokens = await response.json();
+            const tokenList = document.getElementById('tokenList');
+            tokenList.innerHTML = ''; // Clear existing tokens
+            
+            tokens.forEach(token => {
+                const tokenElement = document.createElement('div');
+                tokenElement.className = 'token-item animate__animated animate__fadeIn';
+                tokenElement.onclick = () => selectToken(token);
+                tokenElement.innerHTML = `
+                    <div style="display: flex; align-items: center; width: 100%;">
+                        <img src="${token.image}" alt="${token.symbol}" style="width: 36px; height: 36px; border-radius: 50%;">
+                        <div class="token-info">
+                            <div style="font-weight: 600; font-size: 1.1em;">${token.symbol.toUpperCase()}</div>
+                            <div style="color: var(--text-secondary); font-size: 0.9em;">${token.name}</div>
+                        </div>
+                        <div class="token-price" style="margin-left: auto;">
+                            $${token.current_price?.toFixed(2) || '0.00'}
+                        </div>
+                    </div>
+                `;
+                tokenList.appendChild(tokenElement);
+            });
+        } catch (error) {
+            console.error('Error loading tokens:', error);
+            document.getElementById('tokenList').innerHTML = `
+                <div class="error-message" style="text-align: center; padding: 20px;">
+                    <i class="fas fa-exclamation-circle" style="color: var(--primary); font-size: 24px;"></i>
+                    <p>Error loading tokens. Please try again later.</p>
+                </div>
+            `;
+        }
+    }
+
+    // Add this function to handle network switching animation
+    function animateNetworkSwitch(networkId) {
+        const networkItem = document.querySelector(`[onclick="selectNetwork('${networkId}')"]`);
+        networkItem.classList.add('animate__animated', 'animate__pulse');
+        setTimeout(() => {
+            networkItem.classList.remove('animate__animated', 'animate__pulse');
+        }, 1000);
+    }
+
+    // Update the network selection function
+    function selectNetwork(networkId) {
+        const network = networks[networkId];
+        if (!network) return;
+
+        animateNetworkSwitch(networkId);
+        document.querySelectorAll('.network-select').forEach(select => {
+            select.innerHTML = `
+                <img src="assets/${network.icon}" alt="${network.name}" class="animate__animated animate__fadeIn">
+                <span class="animate__animated animate__fadeIn">${network.name}</span>
+                <i class="fas fa-chevron-down"></i>
+            `;
+        });
+        document.getElementById('networkModal').style.display = 'none';
+    }
+</script>
+<!-- Remove all other style sections and keep only this one at the bottom -->
+<style>
+    :root {
+        --background: #0a0b1e;
+        --card-bg: #1a1a2e;
+        --primary: #ff3366;
+        --secondary: #7289da;
+        --text: #ffffff;
+        --text-secondary: #888888;
+        --border: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Base Styles */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Space Grotesk', sans-serif;
+        background: var(--background);
+        color: var(--text);
+        min-height: 100vh;
+    }
+
+    /* Layout Components */
+    .app-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Navigation */
+    .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    /* Search Bar */
+    .search-bar {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 8px 16px;
+        border-radius: 8px;
+        margin-right: 20px;
+    }
+
+    .search-bar input {
+        background: none;
+        border: none;
+        color: var(--text);
+        margin: 0 10px;
+        outline: none;
+    }
+
+    /* Command Center */
+    .command-center {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .command-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    /* Bridge Section */
+    .bridge-section {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bridge-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        opacity: 0.05;
+        z-index: 0;
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(26, 26, 46, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 30px rgba(255, 51, 102, 0.2);
+        animation: slideIn 0.3s ease-out;
+    }
+
+    /* Token and Network Items */
+    .token-item, .network-item {
+        background: rgba(255, 255, 255, 0.05);
+        margin: 5px 0;
+        padding: 15px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        cursor: pointer;
+    }
+
+    .token-item:hover, .network-item:hover {
+        background: rgba(255, 51, 102, 0.1);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 51, 102, 0.2);
+    }
+
+    /* Animations */
+    @keyframes glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(255, 51, 102, 0.5); }
+        50% { box-shadow: 0 0 40px rgba(255, 51, 102, 0.8); }
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    @keyframes slideIn {
+        from { transform: translate(-50%, -40%); opacity: 0; }
+        to { transform: translate(-50%, -50%); opacity: 1; }
+    }
+
+    /* Development Banner */
+    .development-banner {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        padding: 10px 20px;
+        border-radius: 8px;
+        animation: glow 2s infinite, float 3s infinite;
+        z-index: 1000;
+        box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+    }
+</style>
+</body>
+</html>
+
+
+<!-- Add this right after the opening <body> tag -->
+    <div class="background-wrapper">
+        <div class="background-overlay"></div>
+    </div>
+    
+    <!-- Add this style section at the bottom of your file, before </body> -->
+    <style>
+        .background-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(10, 11, 30, 0.95),
+                rgba(26, 26, 46, 0.85)
+            );
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+    
+        /* Update card backgrounds for better visibility */
+        .command-center,
+        .bridge-section,
+        .modal-content {
+            background: rgba(26, 26, 46, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+    
+        /* Add subtle animation to the background */
+        .background-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="f"><feTurbulence type="fractalNoise" baseFrequency="0.005" numOctaves="2"/><feDisplacementMap in="SourceGraphic" scale="30"/></filter><rect width="100%" height="100%" filter="url(%23f)"/></svg>');
+            opacity: 0.1;
+            animation: moveBackground 15s linear infinite;
+        }
+    
+        @keyframes moveBackground {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+    
+        /* Optional: Add particle effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 51, 102, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(114, 137, 218, 0.05) 0%, transparent 50%);
+            animation: particleMove 20s ease infinite;
+        }
+    
+        @keyframes particleMove {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+        }
+    </style>
+<!-- Add this right after opening <body> tag -->
+    <div class="full-screen-overlay" id="comingSoonOverlay">
+        <div class="coming-soon-content">
+            <div class="glowing-circle"></div>
+            <h1 class="animate__animated animate__fadeInDown">Bridge Function Coming Soon</h1>
+            <div class="loading-animation">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
+            <p class="animate__animated animate__fadeInUp">Our bridge functionality is under development</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <button class="close-overlay">Continue to Preview</button>
+        </div>
+    </div>
+    
+    <!-- Add these styles -->
+    <style>
+        .full-screen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 11, 30, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+    
+        .coming-soon-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+    
+        .glowing-circle {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.3;
+            animation: pulse 4s infinite;
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    
+        .loading-animation {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+    
+        .circle {
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: bounce 1s infinite ease-in-out;
+        }
+    
+        .circle:nth-child(2) {
+            animation-delay: 0.2s;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+    
+        .circle:nth-child(3) {
+            animation-delay: 0.4s;
+            background: var(--secondary);
+        }
+    
+        .progress-bar {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 30px auto;
+            overflow: hidden;
+        }
+    
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            animation: fillProgress 3s infinite;
+        }
+    
+        .close-overlay {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+    
+        .close-overlay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+        }
+    
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.5; }
+        }
+    
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 95%; }
+        }
+    
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+    
+    <!-- Add this script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show overlay when page loads
+            const overlay = document.getElementById('comingSoonOverlay');
+            
+            // Close overlay when button is clicked
+            document.querySelector('.close-overlay').addEventListener('click', () => {
+                overlay.classList.add('animate__animated', 'animate__fadeOut');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 500);
+            });
+    
+            // Update all wallet connect buttons to show overlay instead
+            document.querySelectorAll('.wallet-btn, .connect-wallet-bridge').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    overlay.style.display = 'flex';
+                    overlay.classList.remove('animate__fadeOut');
+                    overlay.classList.add('animate__fadeIn');
+                });
+            });
+        });
+    </script>
+    

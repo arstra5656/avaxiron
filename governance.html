@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAXIRON - Governance Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff3366;
+            --secondary: #7289da;
+            --dark: #0f0f23;
+            --darker: rgba(26, 26, 46, 0.95);
+            --light: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background: var(--dark);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 51, 102, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.5em;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 51, 102, 0.1);
+            color: var(--primary);
+        }
+
+        .main-content {
+            padding-top: 80px;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center,
+                rgba(255, 51, 102, 0.15),
+                transparent 70%);
+            z-index: -1;
+        }
+
+        .hero-title {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2em;
+            color: var(--light);
+            margin-bottom: 40px;
+        }
+
+        .launch-banner {
+            background: linear-gradient(45deg,
+                rgba(255, 51, 102, 0.1),
+                rgba(114, 137, 218, 0.1));
+            border: 1px solid var(--primary);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 800px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .launch-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent);
+            animation: shine 3s infinite;
+        }
+
+        .launch-text {
+            font-size: 1.4em;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .token-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--darker);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 51, 102, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--light);
+            font-size: 1.1em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg,
+                var(--darker),
+                rgba(26, 26, 46, 0.8));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 51, 102, 0.2);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .feature-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: inherit;
+            filter: blur(20px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .feature-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-desc {
+            color: var(--light);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0;
+            animation: fillProgress 2s ease forwards;
+        }
+
+        .status-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 51, 102, 0.2);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 51, 102, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(255, 51, 102, 0.8); }
+        }
+
+        @keyframes fillProgress {
+            from { width: 0; }
+            to { width: var(--fill-percent, 75%); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-bar {
+                padding: 15px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5em;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-value {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <div class="nav-logo">AVAXIRON</div>
+        <div class="nav-links">
+            <a href="websitesame.html">Home</a>
+            <a href="stakingportal.html">Staking</a>
+            <a href="investment.html">Analytics</a>
+            <a href="governance.html">Governance</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <section class="hero-section">
+            <div class="hero-bg"></div>
+            <h1 class="hero-title">AVAXIRON Governance</h1>
+            <p class="hero-subtitle">Shape the future of decentralized finance</p>
+            
+            <div class="launch-banner">
+                <div class="launch-text">
+                    <i class="fas fa-rocket"></i>
+                    Token Launch Coming in Q2 2024
+                    <i class="fas fa-rocket"></i>
+                </div>
+            </div>
+        </section>
+
+        <div class="token-stats">
+            <div class="stat-card">
+                <div class="stat-value">100M</div>
+                <div class="stat-label">Total AXIN Supply</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">30%</div>
+                <div class="stat-label">Community Allocation</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">15%</div>
+                <div class="stat-label">Governance Reserved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">10K</div>
+                <div class="stat-label">Min. Stake Required</div>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="status-tag">Coming Soon</div>
+                <div class="feature-icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <h3 class="feature-title">Proposal Voting</h3>
+                <p class="feature-desc">Participate in key decisions and shape the future of AVAXIRON ecosystem</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--fill-percent: 85%"></div>
+                </div>
+                <button class="action-btn">
+                    <i class="fas fa-lock"></i>
+                    Coming Q2 2024
+                </button>
+            </div>
+
+            <div class="feature-card">
+                <div class="status-tag">In Development</div>
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Security Council</h3>
+                <p class="feature-desc">Join the elite group of AXIN governance leaders</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--fill-percent: 60%"></div>
+                </div>
+                <button class="action-btn">
+                    <i class="fas fa-clock"></i>
+                    Coming Soon
+                </button>
+            </div>
+
+            <div class="feature-card">
+                <div class="status-tag">Q2 2024</div>
+                <div class="feature-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3 class="feature-title">Staking Dashboard</h3>
+                <p class="feature-desc">Manage your AXIN tokens and track your voting power</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--fill-percent: 75%"></div>
+                </div>
+                <button class="action-btn">
+                    <i class="fas fa-wallet"></i>
+                    Stake AXIN
+                </button>
+            </div>
+
+            <div class="feature-card">
+                <div class="status-tag">Upcoming</div>
+                <div class="feature-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h3 class="feature-title">Treasury</h3>
+                <p class="feature-desc">Participate in ecosystem funding decisions</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="--fill-percent: 45%"></div>
+                </div>
+                <button class="action-btn">
+                    <i class="fas fa-info-circle"></i>
+                    Learn More
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth     <script>
+        // Smooth scroll animation for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animation for feature cards
+        const cards = document.querySelectorAll('.feature-card');
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        cards.forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Stats counter animation
+        const stats = document.querySelectorAll('.stat-value');
+        const statsObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateValue(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        stats.forEach(stat => {
+            statsObserver.observe(stat);
+        });
+
+        function animateValue(obj) {
+            const value = obj.innerText;
+            const suffix = value.replace(/[0-9]/g, '');
+            const num = parseInt(value);
+            let current = 0;
+            const increment = num / 50;
+            const duration = 1500;
+            const step = duration / 50;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= num) {
+                    clearInterval(timer);
+                    current = num;
+                }
+                obj.innerText = Math.floor(current) + suffix;
+            }, step);
+        }
+
+        // Progress bar animation
+        const progressBars = document.querySelectorAll('.progress-fill');
+        const progressObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.width = entry.target.style.getPropertyValue('--fill-percent');
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        progressBars.forEach(bar => {
+            progressObserver.observe(bar);
+        });
+
+        // Hover effects for action buttons
+        const actionButtons = document.querySelectorAll('.action-btn');
+        actionButtons.forEach(btn => {
+            btn.addEventListener('mouseover', () => {
+                btn.style.transform = 'translateY(-2px)';
+                btn.style.boxShadow = '0 5px 15px rgba(255, 51, 102, 0.3)';
+            });
+
+            btn.addEventListener('mouseout', () => {
+                btn.style.transform = 'translateY(0)';
+                btn.style.boxShadow = 'none';
+            });
+        });
+
+        // Dynamic background effect
+        const heroBg = document.querySelector('.hero-bg');
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            heroBg.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+        });
+    </script>
+</body>
+</html>

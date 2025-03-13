@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Avaxiron Metaverse</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden;
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a1a;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .content {
+            position: relative;
+            z-index: 200;
+            text-align: center;
+            padding: 20px;
+            color: white;
+        }
+        .title {
+            font-size: 72px;
+            background: linear-gradient(45deg, #00ff88, #7289da, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+            filter: drop-shadow(0 0 15px rgba(114, 137, 218, 0.5));
+        }
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        .feature-card {
+            background: rgba(114, 137, 218, 0.1);
+            border: 1px solid rgba(114, 137, 218, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(114, 137, 218, 0.3);
+        }
+        .coming-soon {
+            font-size: 36px;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="overlay">
+        <div class="content">
+            <h1 class="title">AVAXIRON METAVERSE</h1>
+            <div class="features">
+                <div class="feature-card">⚡ Play-to-Earn</div>
+                <div class="feature-card">🌟 NFT Integration</div>
+                <div class="feature-card">🌍 Virtual World</div>
+                <div class="feature-card">💎 Digital Assets</div>
+                <div class="feature-card">🤝 Community</div>
+            </div>
+            <div class="coming-soon">LAUNCHING SOON</div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 200;
+        const connectionDistance = 150;
+        const mouseRadius = 200;
+
+        let mouse = {
+            x: null,
+            y: null
+        };
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 3 - 1.5;
+                this.speedY = Math.random() * 3 - 1.5;
+                this.color = `hsl(${Math.random() * 60 + 200}, 70%, 50%)`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+
+                if (mouse.x) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < mouseRadius) {
+                        const angle = Math.atan2(dy, dx);
+                        this.x -= Math.cos(angle) * 2;
+                        this.y -= Math.sin(angle) * 2;
+                    }
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            particles.forEach(a => {
+                particles.forEach(b => {
+                    const dx = a.x - b.x;
+                    const dy = a.y - b.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(114, 137, 218, ${1 - distance/connectionDistance})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAXIRON - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Original styles remain unchanged -->
+    <style>
+        /* ... keep all original styles ... */
+    </style>
+</head>
+<body>
+    <div class="admin-panel">
+        <div class="login-container" id="loginContainer">
+            <h1 class="panel-title">Admin Access</h1>
+            <div class="input-group">
+                <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+            </div>
+            <button class="admin-btn" id="accessBtn">Access Panel</button>
+            <p class="error-message" id="errorMessage">Incorrect password</p>
+        </div>
+
+        <div class="entries-container" id="entriesContainer">
+            <h1 class="panel-title">Whitelist Entries</h1>
+            <div id="entriesList"></div>
+            <button class="admin-btn export-btn" id="exportBtn">
+                <i class="fas fa-download"></i> Export Data
+            </button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const _0x4f2a = ['QGt1NzUzMjA=', 'entries', 'display', 'block', 'none'];
+            const _0x3e1b = atob(_0x4f2a[0]);
+            const _0x2c9d = function(input) {
+                return btoa(input.split('').reverse().join(''));
+            };
+            
+            const _0x1d8e = function(input) {
+                return atob(input).split('').reverse().join('');
+            };
+
+            const _0xp = _0x2c9d('S' + _0x3e1b);
+
+            document.getElementById('accessBtn').addEventListener('click', function() {
+                const input = document.getElementById('adminPassword').value;
+                const encrypted = _0x2c9d(input);
+                
+                if (encrypted === _0xp) {
+                    document.getElementById('loginContainer').style.display = 'none';
+                    document.getElementById('entriesContainer').style.display = 'block';
+                    loadEntries();
+                } else {
+                    document.getElementById('errorMessage').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('errorMessage').style.display = 'none';
+                    }, 3000);
+                }
+            });
+
+            function loadEntries() {
+                try {
+                    const entries = JSON.parse(localStorage.getItem('whitelistEntries')) || [];
+                    document.getElementById('entriesList').innerHTML = entries.map(entry => `
+                        <div class="entry">
+                            <div class="entry-header">
+                                <span class="entry-name">${entry.username}</span>
+                                <span class="entry-date">${entry.date}</span>
+                            </div>
+                            <div class="entry-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">Wallet:</span>
+                                    <span>${entry.wallet}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Email:</span>
+                                    <span>${entry.email}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Telegram:</span>
+                                    <span>${entry.telegram}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Reason:</span>
+                                    <span>${entry.reason}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } catch(e) {
+                    console.clear();
+                }
+            }
+
+            document.getElementById('exportBtn').addEventListener('click', function() {
+                try {
+                    const entries = JSON.parse(localStorage.getItem('whitelistEntries')) || [];
+                    const dataStr = JSON.stringify(entries, null, 2);
+                    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+                    
+                    const linkElement = document.createElement('a');
+                    linkElement.setAttribute('href', dataUri);
+                    linkElement.setAttribute('download', 'whitelist-entries.json');
+                    linkElement.click();
+                } catch(e) {
+                    console.clear();
+                }
+            });
+
+            // Security measures
+            const securityLayer = {
+                init: function() {
+                    this.preventInspect();
+                    this.preventContextMenu();
+                    this.preventKeyboardShortcuts();
+                    this.clearConsole();
+                },
+
+                preventInspect: function() {
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                            e.preventDefault();
+                        }
+                    });
+                },
+
+                preventContextMenu: function() {
+                    document.addEventListener('contextmenu', e => e.preventDefault());
+                },
+
+                preventKeyboardShortcuts: function() {
+                    document.addEventListener('keydown', function(e) {
+                        if ((e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'p')) || 
+                            (e.key === 'F12')) {
+                            e.preventDefault();
+                        }
+                    });
+                },
+
+                clearConsole: function() {
+                    setInterval(() => {
+                        console.clear();
+                        console.log('%c⚠️ Access Denied', 'color: red; font-size: 50px; font-weight: bold;');
+                    }, 100);
+                }
+            };
+
+            securityLayer.init();
+            
+            // Additional protection
+            eval(function(p,a,c,k,e,d){e=function(c){return c};if(!''.replace(/^/,String)){while(c--){d[c]=k[c]||c}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('9 8(){7.6("5").4.3="2"}',10,10,'|||display|style|errorMessage|getElementById|document|showError|function'.split('|'),0,{}));
+
+        })();
+    </script>
+</body>
+</html>
+<head>
+    <!-- ... existing meta tags and links ... -->
+    <style>
+        :root {
+            --primary: #ff3366;
+            --secondary: #7289da;
+            --dark: #0f0f23;
+            --darker: rgba(26, 26, 46, 0.95);
+            --light: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background: var(--dark);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 51, 102, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .admin-panel {
+            background: var(--darker);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 51, 102, 0.2);
+            width: 90%;
+            max-width: 1000px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-title {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 51, 102, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 51, 102, 0.3);
+            outline: none;
+        }
+
+        .admin-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 51, 102, 0.4);
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px rgba(255, 51, 102, 0.5); }
+            100% { text-shadow: 0 0 20px rgba(255, 51, 102, 0.8), 0 0 30px rgba(255, 51, 102, 0.6); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        /* ... keep existing entry styles ... */
+    </style>
+</head>
+<script>
+    (function() {
+        // Simplified password check
+        const ADMIN_PASSWORD = 'Saku@75320';
+
+        document.getElementById('accessBtn').addEventListener('click', function() {
+            const input = document.getElementById('adminPassword').value;
+            
+            if (input === ADMIN_PASSWORD) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('entriesContainer').style.display = 'block';
+                loadEntries();
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('errorMessage').style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        // Add these styles for better entry display
+        const styles = `
+            .entry {
+                background: rgba(255, 255, 255, 0.05);
+                padding: 20px;
+                border-radius: 12px;
+                margin-bottom: 20px;
+                border: 1px solid rgba(255, 51, 102, 0.2);
+            }
+            .entry-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(255, 51, 102, 0.2);
+            }
+            .entry-name {
+                font-size: 1.2em;
+                color: var(--primary);
+                font-weight: 600;
+            }
+            .entry-date {
+                color: var(--light);
+            }
+            .detail-row {
+                display: flex;
+                margin-bottom: 10px;
+            }
+            .detail-label {
+                min-width: 120px;
+                color: var(--secondary);
+                font-weight: 500;
+            }
+            .entries-container {
+                display: none;
+                max-height: 70vh;
+                overflow-y: auto;
+                padding-right: 15px;
+            }
+        `;
+
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = styles;
+        document.head.appendChild(styleSheet);
+
+        // Initialize entries container
+        document.getElementById('entriesContainer').style.display = 'none';
+    })();
+</script>

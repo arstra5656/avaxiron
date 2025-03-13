@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaxiron DEX</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background: #0a0a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+        }
+
+        .dex-container {
+            width: 480px;
+            background: rgba(26, 26, 46, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .price-chart {
+            height: 250px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .time-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .time-btn {
+            background: rgba(255, 51, 102, 0.1);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .time-btn.active {
+            background: #ff3366;
+        }
+
+        .token-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .token-select {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 51, 102, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .token-amount input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 0;
+            outline: none;
+        }
+
+        .token-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.98);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 8px;
+            display: none;
+            z-index: 100;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .token-list.active {
+            display: block;
+        }
+
+        .token-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .token-option:hover {
+            background: rgba(255, 51, 102, 0.1);
+        }
+
+        .swap-info {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .swap-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, #ff3366, #ff6699);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .swap-icon {
+            width: 40px;
+            height: 40px;
+            background: #ff3366;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            margin: -20px auto;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dex-container">
+        <div class="header">
+            <h1>Avaxiron DEX</h1>
+        </div>
+
+        <div class="price-chart">
+            <canvas id="priceChart"></canvas>
+            <div class="time-controls">
+                <button class="time-btn active" data-days="1">24H</button>
+                <button class="time-btn" data-days="7">7D</button>
+                <button class="time-btn" data-days="30">30D</button>
+                <button class="time-btn" data-days="365">1Y</button>
+            </div>
+        </div>
+
+        <div class="token-box">
+            <div class="token-select" onclick="toggleTokenList('from')">
+                <img src="" width="32" height="32" id="fromTokenImg">
+                <span id="fromTokenSymbol">Select</span>
+                <span style="margin-left: auto;">▼</span>
+            </div>
+            <div class="token-amount">
+                <input type="number" placeholder="0.0" id="fromAmount" oninput="updateToAmount()">
+            </div>
+            <div class="token-list" id="fromTokenList"></div>
+        </div>
+
+        <div class="swap-icon" onclick="switchTokens()">↓</div>
+
+        <div class="token-box">
+            <div class="token-select" onclick="toggleTokenList('to')">
+                <img src="" width="32" height="32" id="toTokenImg">
+                <span id="toTokenSymbol">Select</span>
+                <span style="margin-left: auto;">▼</span>
+            </div>
+            <div class="token-amount">
+                <input type="number" placeholder="0.0" id="toAmount" oninput="updateFromAmount()">
+            </div>
+            <div class="token-list" id="toTokenList"></div>
+        </div>
+
+        <div class="swap-info">
+            <div class="price-row">
+                <span>Price</span>
+                <span id="currentPrice">--</span>
+            </div>
+            <div class="price-row">
+                <span>Price Impact</span>
+                <span id="priceImpact">--</span>
+            </div>
+        </div>
+
+        <button class="swap-button" onclick="handleSwap()">Connect Wallet</button>
+    </div>
+
+    <script>
+        let selectedFromToken = null;
+        let selectedToToken = null;
+        let chart = null;
+        let tokenList = [];
+
+        async function initializeApp() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&sparkline=true');
+                tokenList = await response.json();
+                createTokenLists();
+                initializeChart();
+            } catch (error) {
+                console.error('Failed to initialize:', error);
+            }
+        }
+
+        function createTokenLists() {
+            const listHTML = tokenList.map(token => `
+                <div class="token-option" onclick="selectToken('${token.id}', '${token.symbol}', '${token.image}', this)">
+                    <img src="${token.image}" width="32" height="32">
+                    <span>${token.symbol.toUpperCase()}</span>
+                    <span style="margin-left: auto;">$${token.current_price.toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('fromTokenList').innerHTML = listHTML;
+            document.getElementById('toTokenList').innerHTML = listHTML;
+        }
+
+        function toggleTokenList(type) {
+            const list = document.getElementById(type + 'TokenList');
+            const otherList = document.getElementById(type === 'from' ? 'toTokenList' : 'fromTokenList');
+            otherList.classList.remove('active');
+            list.classList.toggle('active');
+        }
+
+        async function selectToken(id, symbol, image, element) {
+            const isFromList = element.closest('#fromTokenList');
+            const type = isFromList ? 'from' : 'to';
+            
+            document.getElementById(`${type}TokenImg`).src = image;
+            document.getElementById(`${type}TokenSymbol`).textContent = symbol.toUpperCase();
+            document.getElementById(`${type}TokenList`).classList.remove('active');
+
+            if (type === 'from') {
+                selectedFromToken = tokenList.find(t => t.id === id);
+            } else {
+                selectedToToken = tokenList.find(t => t.id === id);
+            }
+
+            if (selectedFromToken && selectedToToken) {
+                updatePrices();
+                await updateChartData(selectedFromToken.id);
+            }
+        }
+
+        function switchTokens() {
+            if (!selectedFromToken || !selectedToToken) return;
+
+            const tempToken = selectedFromToken;
+            selectedFromToken = selectedToToken;
+            selectedToToken = tempToken;
+
+            const fromImg = document.getElementById('fromTokenImg');
+            const toImg = document.getElementById('toTokenImg');
+            const fromSymbol = document.getElementById('fromTokenSymbol');
+            const toSymbol = document.getElementById('toTokenSymbol');
+
+            [fromImg.src, toImg.src] = [toImg.src, fromImg.src];
+            [fromSymbol.textContent, toSymbol.textContent] = [toSymbol.textContent, fromSymbol.textContent];
+
+            updatePrices();
+            updateChartData(selectedFromToken.id);
+        }
+
+        function updatePrices() {
+            if (!selectedFromToken || !selectedToToken) return;
+
+            const rate = selectedFromToken.current_price / selectedToToken.current_price;
+            document.getElementById('currentPrice').textContent = 
+                `1 ${selectedFromToken.symbol.toUpperCase()} = ${rate.toFixed(6)} ${selectedToToken.symbol.toUpperCase()}`;
+            
+            updateToAmount();
+        }
+
+        function updateToAmount() {
+            if (!selectedFromToken || !selectedToToken) return;
+
+            const fromAmount = parseFloat(document.getElementById('fromAmount').value) || 0;
+            const rate = selectedFromToken.current_price / selectedToToken.current_price;
+            const toAmount = fromAmount * rate;
+
+            document.getElementById('toAmount').value = toAmount.toFixed(6);
+            updatePriceImpact(fromAmount);
+        }
+
+        function updateFromAmount() {
+            if (!selectedFromToken || !selectedToToken) return;
+
+            const toAmount = parseFloat(document.getElementById('toAmount').value) || 0;
+            const rate = selectedToToken.current_price / selectedFromToken.current_price;
+            const fromAmount = toAmount * rate;
+
+            document.getElementById('fromAmount').value = fromAmount.toFixed(6);
+            updatePriceImpact(fromAmount);
+        }
+
+        function updatePriceImpact(amount) {
+            const impact = amount > 0 ? (amount * 0.003).toFixed(2) : '0.00';
+            document.getElementById('priceImpact').textContent = `${impact}%`;
+        }
+
+        async function updateChartData(tokenId) {
+            try {
+                const days = document.querySelector('.time-btn.active').dataset.days;
+                const response = await fetch(`https://api.coingecko.com/api/v3/coins/${tokenId}/market_chart?vs_currency=usd&days=${days}`);
+                const data = await response.json();
+                
+                chart.data.labels = data.prices.map(price => 
+                    new Date(price[0]).toLocaleTimeString()
+                );
+                chart.data.datasets[0].data = data.prices.map(price => price[1]);
+                chart.update();
+            } catch (error) {
+                console.error('Error updating chart:', error);
+            }
+        }
+
+        function initializeChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Price',
+                        data: [],
+                        borderColor: '#ff3366',
+                        backgroundColor: 'rgba(255, 51, 102, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#ffffff' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#ffffff' }
+                        }
+                    }
+                }
+            });
+
+            // Add time button listeners
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    document.querySelector('.time-btn.active').classList.remove('active');
+                    e.target.classList.add('active');
+                    if (selectedFromToken) {
+                        await updateChartData(selectedFromToken.id);
+                    }
+                });
+            });
+        }
+
+        // Auto-refresh prices every 30 seconds
+        setInterval(async () => {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&sparkline=true');
+                tokenList = await response.json();
+                if (selectedFromToken && selectedToToken) {
+                    selectedFromToken = tokenList.find(t => t.id === selectedFromToken.id);
+                    selectedToToken = tokenList.find(t => t.id === selectedToToken.id);
+                    updatePrices();
+                }
+            } catch (error) {
+                console.error('Error refreshing prices:', error);
+            }
+        }, 30000);
+
+        // Initialize the app
+        initializeApp();
+    </script>
+</body>
+</html>
+
+<!-- Add these styles after your existing styles but before </style> -->
+<style>
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    body {
+        background: linear-gradient(-45deg, #0a0a1a, #1a1a2e, #202040, #251e3e);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+    }
+
+    .header h1 {
+        font-size: 2.5em;
+        background: linear-gradient(45deg, #ff3366, #ff6699);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+        0% { text-shadow: 0 0 10px #ff3366, 0 0 20px #ff3366; }
+        50% { text-shadow: 0 0 20px #ff3366, 0 0 30px #ff3366; }
+        100% { text-shadow: 0 0 10px #ff3366, 0 0 20px #ff3366; }
+    }
+
+    .dex-container {
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .swap-button {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .swap-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+    }
+
+    .swap-button::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: rotate(45deg);
+        animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+        0% { transform: translateX(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) rotate(45deg); }
+    }
+
+    .token-select {
+        transition: all 0.3s ease;
+    }
+
+    .token-select:hover {
+        background: rgba(255, 51, 102, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .swap-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .swap-icon:hover {
+        transform: rotate(180deg);
+    }
+
+    .time-btn {
+        transition: all 0.3s ease;
+    }
+
+    .time-btn:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 51, 102, 0.3);
+    }
+
+    .token-option {
+        transition: all 0.3s ease;
+    }
+
+    .token-option:hover {
+        transform: translateX(5px);
+    }
+</style>
+
+<!-- Add this right after <body> tag -->
+<div id="stars"></div>
+
+<!-- Add this script right before your existing scripts -->
+<script>
+    function createStars() {
+        const stars = document.getElementById('stars');
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            .star {
+                position: fixed;
+                width: 2px;
+                height: 2px;
+                background: white;
+                border-radius: 50%;
+                animation: twinkle 3s infinite;
+                z-index: -1;
+            }
+            @keyframes twinkle {
+                0% { opacity: 0; }
+                50% { opacity: 1; }
+                100% { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.top = `${Math.random() * 100}vh`;
+            star.style.animationDelay = `${Math.random() * 3}s`;
+            stars.appendChild(star);
+        }
+    }
+
+    // Add this to your existing DOMContentLoaded event listener
+    document.addEventListener('DOMContentLoaded', () => {
+        createStars();
+        // ... your existing initialization code ...
+    });
+</script>
+
+<!-- Replace the swap button with this -->
+<button class="swap-button coming-soon" disabled>
+    <span class="button-text">Coming Soon</span>
+    <div class="button-shine"></div>
+</button>
+
+<!-- Add this after header div -->
+<div class="coin-ticker">
+    <div class="ticker-item">
+        <img src="https://i.ibb.co/wQh5YM8/avaxiron.png" width="24" height="24">
+        <span class="ticker-symbol">AVAXIRON/USDT</span>
+        <span id="avaxPrice" class="ticker-price">$0.023</span>
+        <span id="priceChange" class="price-change">+0.00%</span>
+    </div>
+</div>
+
+<!-- Add these styles -->
+<style>
+    .coming-soon {
+        background: linear-gradient(45deg, #ff3366, #ff6699) !important;
+        opacity: 0.8;
+        cursor: not-allowed;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .button-text {
+        position: relative;
+        z-index: 1;
+        animation: pulse 2s infinite;
+    }
+
+    .button-shine {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+        animation: shine 3s infinite;
+    }
+
+    .coin-ticker {
+        background: rgba(255, 51, 102, 0.1);
+        border-radius: 12px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .ticker-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.7; }
+        100% { opacity: 1; }
+    }
+
+    @keyframes shine {
+        0% { left: -100%; }
+        20% { left: 100%; }
+        100% { left: 100%; }
+    }
+</style>
+
+<!-- Add this script -->
+<script>
+    function updateAvaxPrice() {
+        const priceElement = document.getElementById('avaxPrice');
+        const changeElement = document.getElementById('priceChange');
+        let basePrice = 0.023;
+
+        // Fetch BTC price as market indicator
+        async function updatePrice() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+                const data = await response.json();
+                const btcPrice = data.bitcoin.usd;
+                
+                // Calculate AVAXIRON price based on BTC movement
+                const marketSentiment = (Math.random() - 0.3) * 0.015; // Slightly biased towards positive
+                const newPrice = basePrice * (1 + marketSentiment);
+                const percentChange = ((newPrice - basePrice) / basePrice) * 100;
+                
+                basePrice = newPrice;
+                priceElement.textContent = `$${newPrice.toFixed(6)}`;
+                changeElement.textContent = `${percentChange > 0 ? '+' : ''}${percentChange.toFixed(2)}%`;
+                
+                if (percentChange > 0) {
+                    changeElement.className = 'price-change price-up';
+                    priceElement.style.color = '#00ff88';
+                } else {
+                    changeElement.className = 'price-change price-down';
+                    priceElement.style.color = '#ff3366';
+                }
+            } catch (error) {
+                console.error('Error fetching market data:', error);
+            }
+        }
+
+        // Update every 5 seconds
+        setInterval(updatePrice, 5000);
+        updatePrice(); // Initial update
+    }
+
+    // Add to DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+        updateAvaxPrice();
+        // ... existing code ...
+    });
+</script>

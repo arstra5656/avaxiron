@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAXIRON - Investment Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff3366;
+            --secondary-color: #7289da;
+            --bg-dark: #0f0f23;
+            --bg-darker: rgba(26, 26, 46, 0.95);
+            --text-light: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .investment-dashboard {
+            padding: 80px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .dashboard-title {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .development-banner {
+            background: rgba(255, 51, 102, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .development-banner i {
+            color: var(--primary-color);
+            animation: spin 2s linear infinite;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .analytics-card {
+            background: var(--bg-darker);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 51, 102, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            width: 75%;
+            animation: progressAnimation 2s ease-out;
+        }
+
+        .coming-soon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 51, 102, 0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            color: var(--primary-color);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .feature-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-light);
+        }
+
+        .feature-list i {
+            color: var(--primary-color);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes progressAnimation {
+            from { width: 0; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at center, 
+                rgba(255, 51, 102, 0.2),
+                transparent 70%);
+            animation: pulse 2s infinite;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .investment-dashboard {
+                padding: 60px 15px;
+            }
+
+            .dashboard-title {
+                font-size: 2em;
+            }
+
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="investment-dashboard">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">AVAXIRON Investment Analytics</h1>
+            <div class="development-banner">
+                <i class="fas fa-cog"></i>
+                <span>Platform Under Development - Advanced Features Coming Soon</span>
+            </div>
+        </div>
+
+        <div class="analytics-grid">
+            <!-- Market Analysis Card -->
+            <div class="analytics-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Market Analysis</h3>
+                </div>
+                <p>Real-time market data and trend analysis</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                </div>
+                <span class="coming-soon">Coming Q2 2024</span>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Price Predictions</li>
+                    <li><i class="fas fa-check"></i> Market Sentiment Analysis</li>
+                    <li><i class="fas fa-check"></i> Trading Volume Metrics</li>
+                </ul>
+                <div class="glow-effect"></div>
+            </div>
+
+            <!-- Portfolio Tracking Card -->
+            <div class="analytics-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>Portfolio Tracking</h3>
+                </div>
+                <p>Advanced portfolio management tools</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 65%;"></div>
+                </div>
+                <span class="coming-soon">Coming Q3 2024</span>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Performance Analytics</li>
+                    <li><i class="fas fa-check"></i> Risk Assessment</li>
+                    <li><i class="fas fa-check"></i> Auto-rebalancing</li>
+                </ul>
+                <div class="glow-effect"></div>
+            </div>
+
+            <!-- AI Trading Signals Card -->
+            <div class="analytics-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Trading Signals</h3>
+                </div>
+                <p>AI-powered trading recommendations</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 45%;"></div>
+                </div>
+                <span class="coming-soon">Coming Q4 2024</span>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Smart Trade Suggestions</li>
+                    <li><i class="fas fa-check"></i> Risk Management</li>
+                    <li><i class="fas fa-check"></i> Pattern Recognition</li>
+                </ul>
+                <div class="glow-effect"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add animation to cards on scroll
+        const cards = document.querySelectorAll('.analytics-card');
+        
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.5s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        cards.forEach(card => {
+            observer.observe(card);
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+        });
+
+        // Add fadeInUp animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

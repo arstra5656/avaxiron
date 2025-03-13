@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAXIRON NFT Mint</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff3366;
+            --secondary: #7289da;
+            --dark: #0f0f23;
+            --darker: rgba(26, 26, 46, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background: var(--dark);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .mint-container {
+            background: var(--darker);
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 0 30px rgba(255, 51, 102, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .wallet-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.2);
+        }
+
+        .wallet-address {
+            font-family: monospace;
+            color: #2ed573;
+            word-break: break-all;
+            text-align: center;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nft-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .nft-type {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nft-type:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.2);
+        }
+
+        .nft-type.selected {
+            border-color: var(--primary);
+            background: rgba(255, 51, 102, 0.1);
+            animation: pulse 1s infinite;
+        }
+
+        .nft-price {
+            font-size: 1.2em;
+            color: #2ed573;
+            margin-top: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-group:nth-child(2) { animation-delay: 0.2s; }
+        .input-group:nth-child(3) { animation-delay: 0.4s; }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(255, 51, 102, 0.2);
+            outline: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 0.6s forwards;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
+        }
+
+        .status-message {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success { background: rgba(46, 213, 115, 0.2); color: #2ed573; }
+        .error { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+
+        #submissionsOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 15, 35, 0.95);
+            overflow-y: auto;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .submission-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .submission-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="mint-container">
+        <h1 style="text-align: center; margin-bottom: 20px; color: var(--primary);">AVAXIRON NFT Mint</h1>
+        
+        <div class="wallet-info">
+            <div class="wallet-address" id="targetAddress">
+                0x917c3342c49eb5c9fa0d62ecb503548838ac5039
+            </div>
+            <button onclick="copyAddress()" style="width: 100%; padding: 10px; background: var(--secondary); border: none; border-radius: 5px; color: white; cursor: pointer;">
+                Copy Address
+            </button>
+        </div>
+
+        <div class="nft-types">
+            <div class="nft-type" onclick="selectNFT('common', '10')">
+                <h3>Common</h3>
+                <div class="nft-price">10 AVAX</div>
+            </div>
+            <div class="nft-type" onclick="selectNFT('rare', '25')">
+                <h3>Rare</h3>
+                <div class="nft-price">25 AVAX</div>
+            </div>
+            <div class="nft-type" onclick="selectNFT('legendary', '50')">
+                <h3>Legendary</h3>
+                <div class="nft-price">50 AVAX</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Transaction Hash</label>
+            <input type="text" id="txHash" placeholder="Enter your transaction hash">
+        </div>
+
+        <div class="input-group">
+            <label>Your Wallet Address</label>
+            <input type="text" id="walletAddress" placeholder="Enter your wallet address">
+        </div>
+
+        <button class="submit-btn" onclick="submitDetails()">Submit Details</button>
+        <button class="submit-btn" onclick="viewSubmissions()" style="margin-top: 10px; background: var(--secondary);">
+            View All Submissions
+        </button>
+        <div class="status-message" id="statusMessage"></div>
+    </div>
+
+    <div id="submissionsOverlay">
+        <div style="max-width: 1200px; margin: 20px auto; position: relative;">
+            <button onclick="closeSubmissions()" style="position: absolute; right: 0; top: 0; background: var(--primary); border: none; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
+            <h2 style="text-align: center; color: var(--primary); margin-bottom: 30px;">NFT Mint Submissions</h2>
+            <div id="submissionsList"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedNFTType = '';
+        let selectedPrice = '';
+
+        function copyAddress() {
+            const address = document.getElementById('targetAddress').textContent.trim();
+            navigator.clipboard.writeText(address);
+            showStatus('Address copied to clipboard!', 'success');
+        }
+
+        function selectNFT(type, price) {
+            selectedNFTType = type;
+            selectedPrice = price;
+            document.querySelectorAll('.nft-type').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+
+        function submitDetails() {
+            const txHash = document.getElementById('txHash').value;
+            const walletAddress = document.getElementById('walletAddress').value;
+
+            if (!selectedNFTType) {
+                showStatus('Please select an NFT type', 'error');
+                return;
+            }
+
+            if (!txHash || !walletAddress) {
+                showStatus('Please fill all fields', 'error');
+                return;
+            }
+
+            if (!txHash.startsWith('0x') || txHash.length !== 66) {
+                showStatus('Invalid transaction hash', 'error');
+                return;
+            }
+
+            if (!walletAddress.startsWith('0x') || walletAddress.length !== 42) {
+                showStatus('Invalid wallet address', 'error');
+                return;
+            }
+
+            const submission = {
+                nftType: selectedNFTType,
+                price: selectedPrice,
+                walletAddress: walletAddress,
+                txHash: txHash,
+                timestamp: Date.now(),
+                status: 'pending'
+            };
+
+            let submissions = JSON.parse(localStorage.getItem('nftSubmissions') || '[]');
+            submissions.push(submission);
+            localStorage.setItem('nftSubmissions', JSON.stringify(submissions));
+
+            showStatus('Details submitted successfully! We will verify and mint your NFT soon.', 'success');
+            
+            document.getElementById('txHash').value = '';
+            document.getElementById('walletAddress').value = '';
+            document.querySelectorAll('.nft-type').forEach(el => {
+                el.classList.remove('selected');
+            });
+            selectedNFTType = '';
+            selectedPrice = '';
+
+            viewSubmissions();
+        }
+
+        function showStatus(message, type) {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+            statusMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function viewSubmissions() {
+            const submissions = JSON.parse(localStorage.getItem('nftSubmissions') || '[]');
+            const submissionsList = document.getElementById('submissionsList');
+            
+            submissionsList.innerHTML = submissions.map((s, index) => `
+                <div class="submission-card" style="animation: slideIn 0.3s ease ${index * 0.1}s forwards;">
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">${s.nftType.toUpperCase()} NFT - ${s.price} AVAX</h3>
+                    <div style="margin: 8px 0;"><span style="color: var(--secondary);">Wallet:</span> ${s.walletAddress}</div>
+                    <div style="margin: 8px 0;"><span style="color: var(--secondary);">Transaction:</span> ${s.txHash}</div>
+                    <div style="margin: 8px 0;"><span style="color: var(--secondary);">Date:</span> ${new Date(s.timestamp).toLocaleString()}</div>
+                    <div style="margin: 8px 0;"><span style="color: var(--secondary);">Status:</span> <span style="color: ${s.status === 'pending' ? '#ffa502' : '#2ed573'}">${s.status.toUpperCase()}</span></div>
+                </div>
+            `).join('');
+
+            document.getElementById('submissionsOverlay').style.display = 'block';
+        }
+
+        function closeSubmissions() {
+            document.getElementById('submissionsOverlay').style.display = 'none';
+        }
+
+        // Auto-refresh submissions
+        setInterval(() => {
+            if (document.getElementById('submissionsOverlay').style.display === 'block') {
+                viewSubmissions();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,2849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaxiron - Next Generation Blockchain</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        :root {
+            --primary: #ff3366;
+            --secondary: #ff6699;
+            --dark: #0f0f23;
+            --light: #ffffff;
+        }
+
+        body {
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 51, 102, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 30px;
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 51, 102, 0.3);
+        }
+
+        .features {
+            padding: 100px 5%;
+            background: rgba(255, 51, 102, 0.05);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .tokenomics {
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        .token-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        .stat-card {
+            background: rgba(255, 51, 102, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 51, 102, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .roadmap {
+            padding: 100px 5%;
+            background: rgba(255, 51, 102, 0.05);
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 50px auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--primary);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+            width: 50%;
+            padding: 0 40px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer {
+            padding: 50px 5%;
+            background: rgba(15, 15, 35, 0.95);
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">AVAXIRON</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="collection.html">NFT Marketplace</a>
+            <a href="gpt.html">Avax Iron Gpt</a>
+            <a href="swap.html">DEX</a>
+            <a href="#tokenomics">Tokenomics</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#community">Community</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Welcome to Avaxiron</h1>
+            <p>The next generation blockchain platform revolutionizing decentralized finance</p>
+
+<a href="presale.html" class="cta-button">Join Presale</a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="features-grid">
+            <div class="feature-card" data-aos="fade-up">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Secure & Fast</h3>
+                <p>Advanced security protocols with lightning-fast transaction speeds</p>
+            </div>
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>High Scalability</h3>
+                <p>Built for mass adoption with unlimited scaling potential</p>
+            </div>
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3>Low Fees</h3>
+                <p>Minimal transaction fees to maximize your returns</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="tokenomics" id="tokenomics">
+        <h2 data-aos="fade-up">Tokenomics</h2>
+        <div class="token-stats">
+            <div class="stat-card" data-aos="fade-up">
+                <div class="stat-number">1B</div>
+                <div class="stat-label">Total Supply</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-number">40%</div>
+                <div class="stat-label">Presale</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-number">30%</div>
+                <div class="stat-label">Liquidity</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-number">20%</div>
+                <div class="stat-label">Development</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="roadmap" id="roadmap">
+        <h2 data-aos="fade-up">Roadmap</h2>
+        <div class="timeline">
+            <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-content">
+                    <h3>Phase 1</h3>
+                    <p>Website Launch & Community Building</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-content">
+                    <h3>Phase 2</h3>
+                    <p>Token Presale & Exchange Listings</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-aos="fade-right">
+                <div class="timeline-content">
+                    <h3>Phase 3</h3>
+                    <p>Platform Development & Testing</p>
+                </div>
+            </div>
+            <div class="timeline-item" data-aos="fade-left">
+                <div class="timeline-content">
+                    <h3>Phase 4</h3>
+                    <p>Mainnet Launch & Ecosystem Expansion</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="community">
+        <h2>Join Our Community</h2>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-telegram"></i></a>
+            <a href="#"><i class="fab fa-discord"></i></a>
+            <a href="#"><i class="fab fa-medium"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
+</body>
+</html>
+<!-- Add after the existing style section -->
+<style>
+    /* Enhanced Glow Effects */
+    .hero::after {
+        content: '';
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        background: radial-gradient(circle at center, 
+            rgba(255, 51, 102, 0.3) 0%,
+            rgba(255, 102, 153, 0.1) 50%,
+            transparent 70%);
+        animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.6; transform: scale(1.1); }
+        100% { opacity: 0.3; transform: scale(1); }
+    }
+
+    .feature-card {
+        position: relative;
+        overflow: hidden;
+        background: rgba(15, 15, 35, 0.6);
+        box-shadow: 0 0 30px rgba(255, 51, 102, 0.1);
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(255, 51, 102, 0.1),
+            transparent
+        );
+        transform: rotate(45deg);
+        animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+        0% { transform: translateX(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) rotate(45deg); }
+    }
+
+    .stat-card {
+        position: relative;
+        overflow: hidden;
+        background: rgba(15, 15, 35, 0.6);
+        box-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .timeline::before {
+        box-shadow: 0 0 20px var(--primary);
+        animation: glow 2s infinite;
+    }
+
+    @keyframes glow {
+        0%, 100% { box-shadow: 0 0 20px var(--primary); }
+        50% { box-shadow: 0 0 40px var(--primary); }
+    }
+
+    .timeline-content {
+        background: rgba(15, 15, 35, 0.6);
+        box-shadow: 0 0 30px rgba(255, 51, 102, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-content:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 40px rgba(255, 51, 102, 0.3);
+    }
+
+    .social-links a {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 51, 102, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+        background: var(--primary);
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+    }
+
+    .cta-button {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .cta-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 200%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+        );
+        transition: 0.5s;
+        z-index: -1;
+    }
+
+    .cta-button:hover::before {
+        left: 100%;
+    }
+</style>
+
+
+
+<!-- Update these styles -->
+<style>
+    /* Adjust text visibility and smoothness */
+    .hero-content {
+        z-index: 3;
+        background: rgba(15, 15, 35, 0.2);
+        padding: 40px;
+        border-radius: 20px;
+        backdrop-filter: blur(3px);
+    }
+
+    h1, h2, h3, p {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-card, .stat-card, .timeline-content {
+        background: rgba(15, 15, 35, 0.5);
+        backdrop-filter: blur(5px);
+    }
+
+    /* Soften particle effects */
+    #particles-js {
+        opacity: 0.6;
+    }
+
+    /* Update particle settings */
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 50 },  // reduced number of particles
+            opacity: {
+                value: 0.3,        // reduced opacity
+                random: true
+            },
+            size: {
+                value: 2,          // smaller particles
+                random: true
+            },
+            line_linked: {
+                opacity: 0.1,      // more subtle lines
+                width: 0.8
+            },
+            move: {
+                speed: 1.5        // slower movement
+            }
+        }
+    });
+
+    /* Soften the glow effects */
+    .stat-number {
+        text-shadow: 0 0 5px var(--primary);
+    }
+
+    .timeline::before {
+        box-shadow: 0 0 10px var(--primary);
+    }
+
+    /* Adjust card animations */
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }  // reduced float distance
+    }
+</style>
+
+<div class="iron-man-bg">
+    <div class="arc-reactor">
+        <!-- Outer Ring Structure -->
+        <div class="reactor-ring-outer">
+            <div class="ring-segments"></div>
+        </div>
+        
+        <!-- Middle Ring -->
+        <div class="reactor-ring-middle">
+            <div class="energy-flow"></div>
+        </div>
+        
+        <!-- Core Structure -->
+        <div class="reactor-core">
+            <div class="core-inner">
+                <div class="core-segment"></div>
+                <div class="core-segment"></div>
+                <div class="core-segment"></div>
+                <div class="core-segment"></div>
+                <div class="core-segment"></div>
+                <div class="core-segment"></div>
+            </div>
+            <div class="core-glow"></div>
+        </div>
+
+        <!-- Energy Lines -->
+        <div class="energy-lines">
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</div>
+
+<style>
+    .iron-man-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, #1a1a2e, #000810);
+        overflow: hidden;
+        perspective: 1000px;
+    }
+
+    .arc-reactor {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.5) rotate3d(1, 0, 0, 45deg);
+        width: 300px;
+        height: 300px;
+        transform-style: preserve-3d;
+    }
+
+    .reactor-ring-outer {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 4px solid #ff3366;
+        border-radius: 50%;
+        box-shadow: 0 0 50px #ff3366, inset 0 0 50px #ff3366;
+        animation: rotateRing 20s linear infinite;
+    }
+
+    .ring-segments {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: repeating-conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            rgba(255, 51, 102, 0.5) 5deg,
+            transparent 10deg
+        );
+        border-radius: 50%;
+        animation: pulseRing 3s ease-in-out infinite;
+    }
+
+    .reactor-ring-middle {
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        top: 10%;
+        left: 10%;
+        border: 3px solid #ff6699;
+        border-radius: 50%;
+        box-shadow: 0 0 30px #ff6699;
+        overflow: hidden;
+    }
+
+    .energy-flow {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(255, 102, 153, 0.5),
+            transparent
+        );
+        animation: energyRotate 8s linear infinite;
+    }
+
+    .reactor-core {
+        position: absolute;
+        width: 60%;
+        height: 60%;
+        top: 20%;
+        left: 20%;
+        border-radius: 50%;
+        transform-style: preserve-3d;
+    }
+
+    .core-inner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        animation: coreRotate 10s linear infinite;
+    }
+
+    .core-segment {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid #ff3366;
+        border-radius: 50%;
+        transform-origin: center;
+        box-shadow: 0 0 20px #ff3366;
+    }
+
+    .core-segment:nth-child(1) { transform: rotateX(0deg); }
+    .core-segment:nth-child(2) { transform: rotateX(60deg); }
+    .core-segment:nth-child(3) { transform: rotateX(120deg); }
+    .core-segment:nth-child(4) { transform: rotateY(60deg); }
+    .core-segment:nth-child(5) { transform: rotateY(120deg); }
+    .core-segment:nth-child(6) { transform: rotateY(180deg); }
+
+    .core-glow {
+        position: absolute;
+        width: 60%;
+        height: 60%;
+        top: 20%;
+        left: 20%;
+        background: radial-gradient(circle, #ff3366, transparent);
+        border-radius: 50%;
+        filter: blur(10px);
+        animation: coreGlow 2s ease-in-out infinite;
+    }
+
+    .energy-lines span {
+        position: absolute;
+        width: 2px;
+        height: 150%;
+        background: linear-gradient(to top, 
+            transparent,
+            #ff3366,
+            #ff6699,
+            transparent
+        );
+        left: 50%;
+        top: -25%;
+        transform-origin: bottom;
+    }
+
+    .energy-lines span:nth-child(1) { transform: rotate(0deg) translateX(100px); }
+    .energy-lines span:nth-child(2) { transform: rotate(40deg) translateX(100px); }
+    .energy-lines span:nth-child(3) { transform: rotate(80deg) translateX(100px); }
+    .energy-lines span:nth-child(4) { transform: rotate(120deg) translateX(100px); }
+    .energy-lines span:nth-child(5) { transform: rotate(160deg) translateX(100px); }
+    .energy-lines span:nth-child(6) { transform: rotate(200deg) translateX(100px); }
+    .energy-lines span:nth-child(7) { transform: rotate(240deg) translateX(100px); }
+    .energy-lines span:nth-child(8) { transform: rotate(280deg) translateX(100px); }
+    .energy-lines span:nth-child(9) { transform: rotate(320deg) translateX(100px); }
+
+    @keyframes rotateRing {
+        0% { transform: rotate3d(1, 1, 1, 0deg); }
+        100% { transform: rotate3d(1, 1, 1, 360deg); }
+    }
+
+    @keyframes pulseRing {
+        0%, 100% { opacity: 0.5; transform: scale3d(1, 1, 1); }
+        50% { opacity: 1; transform: scale3d(1.05, 1.05, 1.05); }
+    }
+
+    @keyframes energyRotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @keyframes coreRotate {
+        0% { transform: rotate3d(1, 1, 1, 0deg); }
+        100% { transform: rotate3d(1, 1, 1, 360deg); }
+    }
+
+    @keyframes coreGlow {
+        0%, 100% { 
+            opacity: 0.8;
+            transform: scale3d(1, 1, 1);
+        }
+        50% { 
+            opacity: 1;
+            transform: scale3d(1.2, 1.2, 1.2);
+        }
+    }
+
+    /* Content visibility */
+    .navbar, .hero, .features, .tokenomics, .roadmap, footer {
+        position: relative;
+        z-index: 1;
+    }
+</style>
+
+<style>
+    /* ... existing styles ... */
+
+    .title h1 {
+        font-size: 3.2em;
+        margin: 0;
+        background: linear-gradient(45deg, #7289da, #ff6b6b, #7289da);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 15px rgba(114, 137, 218, 0.4));
+        animation: shimmer 3s linear infinite;
+        letter-spacing: 2px;
+        font-weight: 800;
+    }
+
+    .title p {
+        color: #d1d1d1;
+        margin-top: 15px;
+        font-size: 1.2em;
+        letter-spacing: 1px;
+        text-shadow: 0 0 10px rgba(114, 137, 218, 0.3);
+        animation: fadeInPulse 2s infinite;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 12px;
+        color: #e0e0e0;
+        font-size: 1em;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-weight: 600;
+        text-shadow: 0 0 8px rgba(114, 137, 218, 0.2);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 15px;
+        background: rgba(30, 30, 46, 0.95);
+        border: 1px solid rgba(114, 137, 218, 0.5);
+        border-radius: 12px;
+        color: #ffffff;
+        font-size: 1.1em;
+        letter-spacing: 0.5px;
+        transition: all 0.4s ease;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #ff6b6b;
+        box-shadow: 0 0 20px rgba(114, 137, 218, 0.4),
+                    inset 0 0 10px rgba(114, 137, 218, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .submit-btn {
+        background: linear-gradient(45deg, #7289da, #ff6b6b, #7289da);
+        background-size: 200% auto;
+        color: white;
+        padding: 16px 32px;
+        border-radius: 30px;
+        border: none;
+        width: 100%;
+        font-size: 1.2em;
+        font-weight: 600;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        animation: shimmer 3s linear infinite;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(114, 137, 218, 0.4);
+    }
+
+    .login-box {
+        background: rgba(45, 45, 63, 0.92);
+        padding: 45px;
+        border-radius: 25px;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(114, 137, 218, 0.2);
+    }
+
+    /* New Animations */
+    @keyframes shimmer {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
+    }
+
+    @keyframes fadeInPulse {
+        0%, 100% { opacity: 0.8; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.02); }
+    }
+
+    /* Enhanced existing animations */
+    @keyframes floatCoin {
+        0%, 100% { 
+            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+            filter: brightness(1);
+        }
+        50% { 
+            transform: translate3d(30px, -30px, 50px) rotate(180deg) scale(1.1);
+            filter: brightness(1.2);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% { 
+            transform: scale(1); 
+            opacity: 0.5;
+            filter: blur(10px);
+        }
+        50% { 
+            transform: scale(1.2); 
+            opacity: 0.8;
+            filter: blur(15px);
+        }
+    }
+
+    /* Add smooth transition for all elements */
+    * {
+        transition: all 0.3s ease;
+    }
+</style>
+
+<style>
+    /* Mobile Menu Styles */
+    .menu-toggle {
+        display: none;
+        font-size: 24px;
+        color: var(--light);
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: block;
+            position: absolute;
+            right: 20px;
+        }
+
+        .nav-links {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: auto;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            display: none;
+        }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        .arc-reactor {
+            transform: translate(-50%, -50%) scale(0.8) rotate3d(1, 0, 0, 45deg);
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            padding: 20px;
+            margin-top: 60px;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+            padding: 20px;
+        }
+
+        .token-stats {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .cta-button {
+            padding: 12px 30px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+    }
+
+ /* Update the arc-reactor media queries */
+@media (max-width: 768px) {
+    .arc-reactor {
+        transform: translate(-50%, -50%) scale(1.2) rotate3d(1, 0, 0, 45deg);
+        opacity: 0.8;
+        width: 400px; /* Increased size */
+        height: 400px; /* Increased size */
+    }
+
+    .reactor-ring-outer {
+        border-width: 6px; /* Thicker borders */
+        box-shadow: 0 0 60px #ff3366, inset 0 0 60px #ff3366;
+    }
+
+    .energy-lines span {
+        width: 3px; /* Thicker energy lines */
+        height: 180%; /* Longer energy lines */
+    }
+
+    .core-glow {
+        filter: blur(15px); /* Enhanced glow effect */
+    }
+}
+
+@media (max-width: 480px) {
+    .arc-reactor {
+        transform: translate(-50%, -50%) scale(0.9) rotate3d(1, 0, 0, 45deg);
+        width: 350px; /* Still larger than original on small devices */
+        height: 350px;
+    }
+
+    .reactor-core {
+        width: 65%; /* Slightly larger core */
+        height: 65%;
+        top: 17.5%;
+        left: 17.5%;
+    }
+
+    .core-glow {
+        filter: blur(20px); /* Even more glow on mobile */
+    }
+}
+</style>
+
+<script>
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.createElement('div');
+        menuToggle.className = 'menu-toggle';
+        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        
+        const navbar = document.querySelector('.navbar');
+        const logo = document.querySelector('.logo');
+        navbar.insertBefore(menuToggle, logo.nextSibling);
+
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                navLinks.classList.remove('active');
+            }
+        });
+    });
+</script>
+<!-- Add after the navbar section -->
+<div class="metaverse-button">
+    <a href="nftgame.html" class="floating-btn">
+        <i class="fas fa-cube"></i>
+        <span class="btn-tooltip">Metaverse Coming Soon</span>
+    </a>
+</div>
+
+<!-- Add to the existing style section -->
+<style>
+    .metaverse-button {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+    }
+
+    .floating-btn {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(45deg, #7289da, #ff3366);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        font-size: 24px;
+        box-shadow: 0 0 20px rgba(114, 137, 218, 0.5);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .floating-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(255, 51, 102, 0.7);
+    }
+
+    .btn-tooltip {
+        position: absolute;
+        right: 70px;
+        background: rgba(15, 15, 35, 0.9);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .floating-btn:hover .btn-tooltip {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    @media (max-width: 768px) {
+        .metaverse-button {
+            bottom: 20px;
+            right: 20px;
+        }
+        
+        .floating-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+        }
+    }
+</style>
+
+
+<style>
+    .rights-section {
+        margin-top: 40px;
+        text-align: center;
+        padding: 20px 5%;
+    }
+
+    .divider {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(114, 137, 218, 0.5), 
+            transparent
+        );
+        margin: 20px 0;
+    }
+
+    .rights-text {
+        font-size: 1em;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 20px;
+    }
+
+    .regulation-text, .legal-text {
+        font-size: 0.85em;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 10px auto;
+    }
+
+    @media (max-width: 768px) {
+        .rights-section {
+            padding: 20px 15px;
+        }
+        
+        .regulation-text, .legal-text {
+            font-size: 0.8em;
+        }
+    }
+</style>
+
+<!-- Add this before the metaverse button -->
+<div class="ai-help-desk">
+    <button class="ai-floating-btn" id="aiHelpBtn">
+        <div class="iron-button">
+            <div class="button-core">
+                <div class="core-ring"></div>
+                <div class="core-circle"></div>
+                <div class="core-center"></div>
+            </div>
+            <div class="button-effects">
+                <div class="effect-line"></div>
+                <div class="effect-glow"></div>
+            </div>
+        </div>
+        <span class="ai-tooltip">AI Assistant</span>
+    </button>
+</div>
+
+<style>
+    .ai-help-desk {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        z-index: 1000;
+    }
+
+    .ai-floating-btn {
+        width: 60px;
+        height: 60px;
+        border: none;
+        border-radius: 50%;
+        background: #1a1a2e;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(255, 51, 102, 0.3);
+    }
+
+    .iron-button {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform-style: preserve-3d;
+        transition: transform 0.3s;
+    }
+
+    .button-core {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        animation: floatEffect 3s ease-in-out infinite;
+    }
+
+    .core-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid #ff3366;
+        border-radius: 50%;
+        animation: spinRing 4s linear infinite;
+    }
+
+    .core-circle {
+        position: absolute;
+        width: 70%;
+        height: 70%;
+        top: 15%;
+        left: 15%;
+        border: 2px solid #7289da;
+        border-radius: 50%;
+        animation: spinRing 3s linear infinite reverse;
+    }
+
+    .core-center {
+        position: absolute;
+        width: 40%;
+        height: 40%;
+        top: 30%;
+        left: 30%;
+        background: radial-gradient(#ff3366, transparent);
+        border-radius: 50%;
+        animation: pulseCore 2s ease-in-out infinite;
+    }
+
+    .button-effects {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+
+    .effect-line {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: repeating-conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            rgba(255, 51, 102, 0.2) 20deg,
+            transparent 40deg
+        );
+        animation: spinEffect 8s linear infinite;
+    }
+
+    .effect-glow {
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        top: -25%;
+        left: -25%;
+        background: radial-gradient(
+            rgba(255, 51, 102, 0.3) 0%,
+            transparent 70%
+        );
+        animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    .ai-tooltip {
+        position: absolute;
+        right: 70px;
+        background: rgba(15, 15, 35, 0.95);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        color: white;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        box-shadow: 0 0 15px rgba(255, 51, 102, 0.2);
+    }
+
+    .ai-floating-btn:hover .ai-tooltip {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .ai-floating-btn:hover .iron-button {
+        transform: scale(1.1);
+    }
+
+    @keyframes floatEffect {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+
+    @keyframes spinRing {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulseCore {
+        0%, 100% { transform: scale(0.8); opacity: 0.5; }
+        50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    @keyframes spinEffect {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes glowPulse {
+        0%, 100% { opacity: 0.3; transform: scale(0.8); }
+        50% { opacity: 0.6; transform: scale(1); }
+    }
+
+    @media (max-width: 768px) {
+        .ai-help-desk {
+            bottom: 90px;
+            right: 20px;
+        }
+    }
+</style>
+<div class="ai-chat-container" id="aiChat">
+    <div class="chat-header">
+        <div class="header-reactor">
+            <div class="reactor-ring"></div>
+            <div class="reactor-core"></div>
+        </div>
+        <h3>AVAXIRON AI</h3>
+        <button class="close-chat" id="closeChat">×</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot">
+            <div class="bot-avatar">
+                <div class="mini-reactor"></div>
+            </div>
+            <p>Hello! How can I assist you today?</p>
+        </div>
+    </div>
+    <div class="chat-input">
+        <input type="text" placeholder="Type your message..." id="userInput">
+        <button class="send-btn" id="sendMessage">
+            <div class="send-reactor"></div>
+        </button>
+    </div>
+</div>
+
+<style>
+    .ai-chat-container {
+        position: fixed;
+        bottom: 170px;
+        right: 30px;
+        width: 350px;
+        height: 500px;
+        background: rgba(15, 15, 35, 0.95);
+        backdrop-filter: blur(10px);
+        border: 2px solid #ff3366;
+        border-radius: 20px;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 1000;
+        box-shadow: 0 0 30px rgba(255, 51, 102, 0.3);
+    }
+
+    .chat-header {
+        background: linear-gradient(45deg, #1a1a2e, #ff3366);
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: white;
+    }
+
+    .header-reactor {
+        width: 30px;
+        height: 30px;
+        position: relative;
+    }
+
+    .reactor-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid #00ffff;
+        border-radius: 50%;
+        animation: spinRing 4s linear infinite;
+    }
+
+    .reactor-core {
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 50%;
+        height: 50%;
+        background: radial-gradient(#00ffff, transparent);
+        border-radius: 50%;
+        animation: pulseCore 2s infinite;
+    }
+
+    .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 15px;
+    }
+
+    .message {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: messageAppear 0.5s forwards;
+    }
+
+    .bot-avatar {
+        width: 40px;
+        height: 40px;
+        background: rgba(26, 26, 46, 0.9);
+        border-radius: 50%;
+        padding: 5px;
+        border: 2px solid #ff3366;
+    }
+
+    .mini-reactor {
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(#ff3366, transparent);
+        border-radius: 50%;
+        animation: pulseCore 2s infinite;
+    }
+
+    .message p {
+        background: rgba(255, 51, 102, 0.1);
+        padding: 12px;
+        border-radius: 15px;
+        color: white;
+        border: 1px solid rgba(255, 51, 102, 0.2);
+    }
+
+    .chat-input {
+        padding: 15px;
+        display: flex;
+        gap: 10px;
+        border-top: 2px solid rgba(255, 51, 102, 0.3);
+    }
+
+    .chat-input input {
+        flex: 1;
+        background: rgba(26, 26, 46, 0.9);
+        border: 1px solid rgba(255, 51, 102, 0.3);
+        border-radius: 20px;
+        padding: 12px;
+        color: white;
+    }
+
+    .send-btn {
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .send-reactor {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        border-radius: 50%;
+        animation: pulseCore 2s infinite;
+    }
+
+    @keyframes messageAppear {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .ai-chat-container {
+            width: 300px;
+            bottom: 150px;
+            right: 20px;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const aiButton = document.getElementById('aiHelpBtn');
+    const chatContainer = document.getElementById('aiChat');
+    const closeChat = document.getElementById('closeChat');
+    const sendButton = document.getElementById('sendMessage');
+    const userInput = document.getElementById('userInput');
+    const chatMessages = document.getElementById('chatMessages');
+
+    aiButton.addEventListener('click', () => {
+        chatContainer.style.display = 'flex';
+    });
+
+    closeChat.addEventListener('click', () => {
+        chatContainer.style.display = 'none';
+    });
+
+    function addMessage(message, isBot = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isBot ? 'bot' : 'user'}`;
+        
+        if (isBot) {
+            messageDiv.innerHTML = `
+                <div class="bot-avatar">
+                    <div class="mini-reactor"></div>
+                </div>
+                <p>${message}</p>
+            `;
+        } else {
+            messageDiv.innerHTML = `<p>${message}</p>`;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function handleMessage() {
+        const message = userInput.value.trim();
+        if (message) {
+            addMessage(message, false);
+            userInput.value = '';
+
+            // Add loading effect
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message bot';
+            loadingDiv.innerHTML = `
+                <div class="bot-avatar">
+                    <div class="mini-reactor"></div>
+                </div>
+                <p>...</p>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Replace with actual API call if available
+            setTimeout(() => {
+                chatMessages.removeChild(loadingDiv);
+                addMessage('Feature under development. Coming soon!', true);
+            }, 1500);
+        }
+    }
+
+    sendButton.addEventListener('click', handleMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleMessage();
+        }
+    });
+});
+</script>
+<!-- Update the bridge button HTML -->
+<div class="bridge-button">
+    <a href="bridge.html" class="floating-btn bridge-btn">
+        <div class="btn-inner">
+            <div class="ai-core"></div>
+            <div class="ai-ring"></div>
+            <span class="btn-text">Bridge</span>
+        </div>
+        <span class="btn-tooltip">
+            <i class="fas fa-robot"></i> Under Development
+            <div class="tooltip-particles"></div>
+        </span>
+    </a>
+</div>
+
+<style>
+    .bridge-button {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        z-index: 1000;
+    }
+
+    .bridge-btn {
+        width: 60px;
+        height: 60px;
+        background: rgba(26, 26, 46, 0.95);
+        border: 2px solid #ff3366;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-text {
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 2;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .ai-core {
+        position: absolute;
+        width: 70%;
+        height: 70%;
+        background: radial-gradient(circle at center, #ff3366, transparent);
+        border-radius: 50%;
+        animation: pulseCore 2s infinite;
+    }
+
+    .ai-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid rgba(255, 51, 102, 0.5);
+        border-radius: 50%;
+        animation: rotateRing 4s linear infinite;
+    }
+
+    .btn-tooltip {
+        position: absolute;
+        left: 70px;
+        background: rgba(15, 15, 35, 0.95);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px rgba(255, 51, 102, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow: hidden;
+    }
+
+    .tooltip-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, 
+            transparent 0%,
+            rgba(255, 51, 102, 0.1) 50%,
+            transparent 100%
+        );
+        animation: particleFlow 2s linear infinite;
+    }
+
+    .bridge-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(255, 51, 102, 0.7);
+    }
+
+    .bridge-btn:hover .btn-tooltip {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    @keyframes pulseCore {
+        0%, 100% { transform: scale(0.8); opacity: 0.5; }
+        50% { transform: scale(1.2); opacity: 0.8; }
+    }
+
+    @keyframes rotateRing {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes particleFlow {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+
+    @media (max-width: 768px) {
+        .bridge-button {
+            bottom: 20px;
+            left: 20px;
+        }
+        
+        .bridge-btn {
+            width: 50px;
+            height: 50px;
+        }
+
+        .btn-text {
+            font-size: 12px;
+        }
+    }
+</style>
+<!-- Add Big Partnerships Section -->
+<section class="big-partnerships-teaser">
+    <a href="futurcollabs.html" class="partnership-link">
+        <div class="partnership-text-container">
+            <div class="glow-effect"></div>
+            <h2 class="partnership-title">Big Partnerships</h2>
+            <div class="animated-text">
+                <span class="text-line">Coming Soon</span>
+                <span class="text-line">AI Integration</span>
+                <span class="text-line">Stay Connected</span>
+            </div>
+            <div class="connection-lines">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </a>
+</section>
+
+<style>
+    .big-partnerships-teaser {
+        padding: 30px;
+        margin: 20px 0;
+        text-align: center;
+    }
+
+    .partnership-link {
+        text-decoration: none;
+        display: inline-block;
+        position: relative;
+    }
+
+    .partnership-text-container {
+        background: rgba(26, 26, 46, 0.95);
+        padding: 25px 40px;
+        border-radius: 15px;
+        border: 2px solid rgba(255, 51, 102, 0.3);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .glow-effect {
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        top: -25%;
+        left: -25%;
+        background: radial-gradient(
+            circle at center,
+            rgba(255, 51, 102, 0.2),
+            transparent 70%
+        );
+        animation: rotateGlow 10s linear infinite;
+    }
+
+    .partnership-title {
+        color: white;
+        font-size: 2.2em;
+        margin-bottom: 15px;
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+    }
+
+    .animated-text {
+        height: 30px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .text-line {
+        display: block;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2em;
+        line-height: 30px;
+        animation: scrollText 6s infinite;
+    }
+
+    .connection-lines {
+        margin-top: 15px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .connection-lines span {
+        width: 30px;
+        height: 2px;
+        background: linear-gradient(90deg, #ff3366, #7289da);
+        animation: pulseLine 2s infinite;
+    }
+
+    .connection-lines span:nth-child(2) {
+        animation-delay: 0.3s;
+    }
+
+    .connection-lines span:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+    .partnership-text-container:hover {
+        transform: translateY(-5px);
+        border-color: rgba(255, 51, 102, 0.8);
+        box-shadow: 0 10px 30px rgba(255, 51, 102, 0.3);
+    }
+
+    @keyframes scrollText {
+        0%, 27% { transform: translateY(0); }
+        33%, 60% { transform: translateY(-30px); }
+        66%, 94% { transform: translateY(-60px); }
+        100% { transform: translateY(0); }
+    }
+
+    @keyframes pulseLine {
+        0%, 100% { transform: scaleX(0.5); opacity: 0.5; }
+        50% { transform: scaleX(1.2); opacity: 1; }
+    }
+
+    @keyframes rotateGlow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+        .partnership-text-container {
+            padding: 20px 30px;
+        }
+
+        .partnership-title {
+            font-size: 1.8em;
+        }
+
+        .text-line {
+            font-size: 1em;
+        }
+    }
+</style>
+<section class="investor-portal">
+    <div class="investor-grid">
+      
+        <!-- Update in the investor-grid section -->
+        <a href="investment.html" class="investor-box">
+            <div class="box-content">
+                <div class="hex-icon">
+                    <div class="hex-inner">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                </div>
+                <h3>Investment Analytics</h3>
+                <p>Real-time blockchain metrics</p>
+                <div class="energy-bars">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </a>
+              <!-- Update this section in the investor-grid -->
+              <a href="stakingportal.html" class="investor-box">
+                <div class="box-content">
+                    <div class="hex-icon">
+                        <div class="hex-inner">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                    </div>
+                    <h3>Staking Portal</h3>
+                    <p>Earn passive rewards</p>
+                    <div class="energy-bars">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            </a>
+
+        <a href="governance.html" class="investor-box">
+            <div class="box-content">
+                <div class="hex-icon">
+                    <div class="hex-inner">
+                        <i class="fas fa-vote-yea"></i>
+                    </div>
+                </div>
+                <h3>Governance</h3>
+                <p>Shape the future</p>
+                <div class="energy-bars">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </a>
+    </div>
+</section>
+
+<style>
+    .investor-portal {
+        padding: 40px 20px;
+        background: rgba(26, 26, 46, 0.4);
+        border-radius: 20px;
+        margin: 30px 0;
+    }
+
+    .investor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .investor-box {
+        background: rgba(15, 15, 35, 0.9);
+        border: 2px solid #ff3366;
+        border-radius: 15px;
+        padding: 30px;
+        text-decoration: none;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+    }
+
+    .box-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+    }
+
+    .hex-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.5s ease;
+    }
+
+    .hex-inner {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        transform-style: preserve-3d;
+        animation: floatIcon 4s ease-in-out infinite;
+    }
+
+    .hex-inner i {
+        color: white;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .investor-box h3 {
+        font-size: 1.5em;
+        margin: 15px 0;
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .investor-box p {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 20px;
+    }
+
+    .energy-bars {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    .energy-bars span {
+        width: 30px;
+        height: 3px;
+        background: #ff3366;
+        animation: energyPulse 2s infinite;
+    }
+
+    .energy-bars span:nth-child(2) {
+        animation-delay: 0.3s;
+    }
+
+    .energy-bars span:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+    .investor-box::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+            circle at center,
+            rgba(255, 51, 102, 0.1),
+            transparent 70%
+        );
+        transform: rotate(0deg);
+        transition: all 0.5s ease;
+    }
+
+    .investor-box:hover {
+        transform: translateY(-10px) scale(1.02);
+        border-color: #ff6b6b;
+        box-shadow: 0 10px 30px rgba(255, 51, 102, 0.3);
+    }
+
+    .investor-box:hover .hex-icon {
+        transform: rotate3d(0, 1, 0, 360deg);
+    }
+
+    .investor-box:hover::before {
+        transform: rotate(180deg);
+    }
+
+    @keyframes floatIcon {
+        0%, 100% { transform: translateY(0) rotateX(0); }
+        50% { transform: translateY(-10px) rotateX(10deg); }
+    }
+
+    @keyframes energyPulse {
+        0%, 100% { transform: scaleX(0.5); opacity: 0.5; }
+        50% { transform: scaleX(1.2); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+        .investor-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .investor-box {
+            padding: 20px;
+        }
+
+        .hex-icon {
+            width: 60px;
+            height: 60px;
+        }
+    }
+</style>
+<section class="blockchain-features">
+    <div class="blockchain-grid">
+        <a href="ironblockchain.html" class="blockchain-box">
+            <div class="box-frame">
+                <div class="box-header">
+                    <div class="tech-circle">
+                        <div class="pulse-ring"></div>
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3>Blockchain Explorer</h3>
+                </div>
+                <div class="box-content">
+                    <p>Advanced blockchain analytics and real-time tracking</p>
+                    <div class="data-lines">
+                        <span class="data-line"></span>
+                        <span class="data-line"></span>
+                        <span class="data-line"></span>
+                    </div>
+                </div>
+                <div class="corner-accent top-left"></div>
+                <div class="corner-accent top-right"></div>
+                <div class="corner-accent bottom-left"></div>
+                <div class="corner-accent bottom-right"></div>
+            </div>
+        </a>
+
+        <a href="ironblockchain.html#transactions" class="blockchain-box">
+            <div class="box-frame">
+                <div class="box-header">
+                    <div class="tech-circle">
+                        <div class="pulse-ring"></div>
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Live Transactions</h3>
+                </div>
+                <div class="box-content">
+                    <p>Monitor transactions and network activity</p>
+                    <div class="data-lines">
+                        <span class="data-line"></span>
+                        <span class="data-line"></span>
+                        <span class="data-line"></span>
+                    </div>
+                </div>
+                <div class="corner-accent top-left"></div>
+                <div class="corner-accent top-right"></div>
+                <div class="corner-accent bottom-left"></div>
+                <div class="corner-accent bottom-right"></div>
+            </div>
+        </a>
+
+        <a href="ironblockchain.html#network" class="blockchain-box">
+            <div class="box-frame">
+                <div class="box-header">
+                    <div class="tech-circle">
+                        <div class="pulse-ring"></div>
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Network Stats</h3>
+                </div>
+                <div class="box-content">
+                    <p>Real-time network statistics and performance</p>
+                    <div class="data-lines">
+                        <span class="data-line"></span>
+                        <span class="data-line"></span>
+                        <span class="data-line"></span>
+                    </div>
+                </div>
+                <div class="corner-accent top-left"></div>
+                <div class="corner-accent top-right"></div>
+                <div class="corner-accent bottom-left"></div>
+                <div class="corner-accent bottom-right"></div>
+            </div>
+        </a>
+    </div>
+</section>
+
+<style>
+    .blockchain-features {
+        padding: 40px 20px;
+        margin: 30px 0;
+        background: rgba(15, 15, 35, 0.8);
+        border-radius: 20px;
+    }
+
+    .blockchain-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .blockchain-box {
+        text-decoration: none;
+        color: white;
+        transition: transform 0.3s ease;
+    }
+
+    .box-frame {
+        background: rgba(26, 26, 46, 0.95);
+        border: 1px solid #ff3366;
+        border-radius: 15px;
+        padding: 25px;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .box-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .tech-circle {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .tech-circle i {
+        font-size: 20px;
+        color: white;
+        z-index: 1;
+    }
+
+    .pulse-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 2px solid #ff3366;
+        animation: pulse 2s infinite;
+    }
+
+    .box-header h3 {
+        font-size: 1.4em;
+        margin: 0;
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .box-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .box-content p {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 20px;
+    }
+
+    .data-lines {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .data-line {
+        height: 3px;
+        background: linear-gradient(90deg, #ff3366, transparent);
+        animation: dataFlow 2s infinite;
+        opacity: 0.6;
+    }
+
+    .data-line:nth-child(2) {
+        animation-delay: 0.3s;
+    }
+
+    .data-line:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+    .corner-accent {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        border: 2px solid #ff3366;
+    }
+
+    .top-left {
+        top: 0;
+        left: 0;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    .top-right {
+        top: 0;
+        right: 0;
+        border-left: none;
+        border-bottom: none;
+    }
+
+    .bottom-left {
+        bottom: 0;
+        left: 0;
+        border-right: none;
+        border-top: none;
+    }
+
+    .bottom-right {
+        bottom: 0;
+        right: 0;
+        border-left: none;
+        border-top: none;
+    }
+
+    .blockchain-box:hover {
+        transform: translateY(-5px);
+    }
+
+    .blockchain-box:hover .box-frame {
+        box-shadow: 0 0 30px rgba(255, 51, 102, 0.3);
+    }
+
+    .blockchain-box:hover .tech-circle {
+        animation: rotate 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    @keyframes dataFlow {
+        0% { transform: translateX(0) scaleX(0.5); }
+        50% { transform: translateX(20%) scaleX(1); }
+        100% { transform: translateX(100%) scaleX(0.5); }
+    }
+
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+        .blockchain-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .box-frame {
+            padding: 20px;
+        }
+
+        .tech-circle {
+            width: 40px;
+            height: 40px;
+        }
+
+        .box-header h3 {
+            font-size: 1.2em;
+        }
+    }
+</style>
+<!-- Replace the AI Trading section with Launch Preview -->
+<section class="launch-preview">
+    <div class="section-header" data-aos="fade-up">
+        <h2>Revolutionary Blockchain Technology</h2>
+        <p>The Future of Decentralized Innovation</p>
+    </div>
+    <div class="preview-container">
+        <div class="preview-card" data-aos="fade-up">
+            <div class="card-glow"></div>
+            <div class="tech-icon">
+                <i class="fas fa-rocket"></i>
+                <div class="pulse-rings">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <h3>Coming Soon</h3>
+            <div class="launch-timer">
+                <div class="timer-segment">
+                    <span class="time">Q2</span>
+                    <span class="label">Launch</span>
+                </div>
+                <div class="timer-segment">
+                    <span class="time">2025</span>
+                    <span class="label">Year</span>
+                </div>
+            </div>
+            <button class="waitlist-btn">
+                <span>Join Waitlist</span>
+                <div class="btn-effect"></div>
+            </button>
+        </div>
+    </div>
+</section>
+
+<style>
+    .launch-preview {
+        padding: 80px 5%;
+        background: linear-gradient(180deg, rgba(15, 15, 35, 0.95), rgba(26, 26, 46, 0.95));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .preview-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 0;
+    }
+
+    .preview-card {
+        background: rgba(26, 26, 46, 0.95);
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        position: relative;
+        border: 1px solid rgba(255, 51, 102, 0.3);
+        backdrop-filter: blur(10px);
+        transform: translateY(0);
+        transition: all 0.4s ease;
+    }
+
+    .preview-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(255, 51, 102, 0.8);
+        box-shadow: 0 10px 30px rgba(255, 51, 102, 0.2);
+    }
+
+    .tech-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 30px;
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .tech-icon i {
+        font-size: 40px;
+        color: white;
+        animation: iconFloat 3s ease-in-out infinite;
+    }
+
+    .launch-timer {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin: 30px 0;
+    }
+
+    .timer-segment {
+        text-align: center;
+    }
+
+    .timer-segment .time {
+        font-size: 2.5em;
+        font-weight: 700;
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: block;
+    }
+
+    .timer-segment .label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9em;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .waitlist-btn {
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        border: none;
+        padding: 15px 40px;
+        border-radius: 30px;
+        color: white;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .waitlist-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(255, 51, 102, 0.4);
+    }
+
+    .btn-effect {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.1), 
+            transparent
+        );
+        transform: rotate(45deg);
+        animation: btnEffect 2s linear infinite;
+    }
+
+    @keyframes iconFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    @keyframes btnEffect {
+        0% { transform: translateX(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) rotate(45deg); }
+    }
+
+    @media (max-width: 768px) {
+        .preview-card {
+            padding: 30px 20px;
+        }
+
+        .tech-icon {
+            width: 80px;
+            height: 80px;
+        }
+
+        .timer-segment .time {
+            font-size: 2em;
+        }
+    }
+</style>
+<!-- Add before footer -->
+<section class="upcoming-features">
+    <div class="features-container">
+        <h2 class="features-title">Coming Soon</h2>
+        <div class="features-grid">
+            <div class="feature-card" onclick="showFeatureMessage('AI-Powered Trading System launching in Q3 2024')">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                    <div class="icon-ring"></div>
+                </div>
+                <h3>AI Trading</h3>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 75%"></div>
+                </div>
+                <span class="development-status">Development: 75%</span>
+            </div>
+
+            <div class="feature-card" onclick="showFeatureMessage('Multi-Chain Bridge - Connecting Multiple Blockchains Q4 2024')">
+                <div class="feature-icon">
+                    <i class="fas fa-link"></i>
+                    <div class="icon-ring"></div>
+                </div>
+                <h3>Cross-Chain Bridge</h3>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 60%"></div>
+                </div>
+                <span class="development-status">Development: 60%</span>
+            </div>
+
+            <div class="feature-card" onclick="showFeatureMessage('Decentralized Exchange with Advanced Features - Coming Q1 2025')">
+                <div class="feature-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div class="icon-ring"></div>
+                </div>
+                <h3>DEX Platform</h3>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 45%"></div>
+                </div>
+                <span class="development-status">Development: 45%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Message Popup -->
+    <div class="feature-message" id="featureMessage">
+        <div class="message-content">
+            <span class="message-text"></span>
+            <div class="message-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .upcoming-features {
+        padding: 60px 5%;
+        background: rgba(15, 15, 35, 0.95);
+        position: relative;
+    }
+
+    .features-title {
+        text-align: center;
+        font-size: 2.5em;
+        margin-bottom: 40px;
+        background: linear-gradient(45deg, #ff3366, #7289da);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .feature-card {
+        background: rgba(26, 26, 46, 0.95);
+        border: 1px solid rgba(255, 51, 102, 0.3);
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        border-color: #ff3366;
+        box-shadow: 0 10px 30px rgba(255, 51, 102, 0.2);
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .feature-icon i {
+        font-size: 35px;
+        color: #ff3366;
+        z-index: 1;
+    }
+
+    .icon-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 2px solid #ff3366;
+        border-radius: 50%;
+        animation: ringPulse 2s infinite;
+    }
+
+    .feature-card h3 {
+        color: white;
+        margin: 15px 0;
+        font-size: 1.3em;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        margin: 15px 0;
+        overflow: hidden;
+    }
+
+    .progress {
+        height: 100%;
+        background: linear-gradient(90deg, #ff3366, #7289da);
+        animation: progressGlow 2s infinite;
+    }
+
+    .development-status {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9em;
+    }
+
+    .feature-message {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: rgba(26, 26, 46, 0.95);
+        border: 1px solid #ff3366;
+        border-radius: 10px;
+        padding: 15px 25px;
+        color: white;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+    }
+
+    .feature-message.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .message-content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .message-dots span {
+        width: 6px;
+        height: 6px;
+        background: #ff3366;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 2px;
+        animation: dotPulse 1s infinite;
+    }
+
+    .message-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .message-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes ringPulse {
+        0% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    @keyframes progressGlow {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+
+    @keyframes dotPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.5); }
+    }
+</style>
+
+<script>
+    function showFeatureMessage(message) {
+        const messageEl = document.getElementById('featureMessage');
+        const messageText = messageEl.querySelector('.message-text');
+        messageText.textContent = message;
+        messageEl.classList.add('show');
+        
+        setTimeout(() => {
+            messageEl.classList.remove('show');
+        }, 3000);
+    }
+</script>
+    <!-- Floating Mint Button -->
+    <div class="floating-mint-button">
+        <div class="mint-button-inner">
+            <div class="mint-glow"></div>
+            <i class="fas fa-coins"></i>
+            <span class="mint-text">MINT</span>
+            <span class="mint-status">LIVE SOON</span>
+        </div>
+    </div>
+
+    <style>
+        .floating-mint-button {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            z-index: 9999;
+        }
+
+        .mint-button-inner {
+            background: rgba(26, 26, 46, 0.95);
+            border: 2px solid #ff3366;
+            padding: 15px 25px;
+            border-radius: 10px 0 0 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mint-glow {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: radial-gradient(
+                circle at center,
+                rgba(255, 51, 102, 0.3),
+                transparent 70%
+            );
+            pointer-events: none;
+            animation: mintGlow 3s linear infinite;
+        }
+
+        .mint-button-inner i {
+            color: #ff3366;
+            font-size: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mint-text {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mint-status {
+            color: #ff3366;
+            font-size: 12px;
+            position: relative;
+            z-index: 1;
+            animation: blinkStatus 1.5s infinite;
+        }
+
+        @keyframes mintGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes blinkStatus {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .mint-button-inner:hover {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+        }
+    </style>
+</body>
+<footer id="community">
+    <div class="rights-section">
+        <div class="divider"></div>
+        <p class="rights-text">© 2024 AVAXIRON. All Rights Reserved.</p>
+        <p class="regulation-text">
+            Trading cryptocurrencies carries a high level of risk, and may not be suitable for all investors. 
+            Before deciding to trade cryptocurrency you should carefully consider your investment objectives, 
+            level of experience, and risk appetite.
+        </p>
+        <p class="legal-text">
+            The information provided on this website does not constitute investment advice, financial advice, 
+            trading advice, or any other sort of advice. You should not treat any of the website's content 
+            as such.
+        </p>
+    </div>
+</footer>

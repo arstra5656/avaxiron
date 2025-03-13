@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAXIRON - NFT Collection</title>
+    <style>
+        body {
+            margin: 0;
+            background: #0a0a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .gallery-container {
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-title {
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .nft-card {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .nft-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .nft-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 2px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .nft-info {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .nft-name {
+            margin: 0;
+            font-size: 1.4em;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .rarity-badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .coming-soon-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.4s ease;
+            border-radius: 20px;
+        }
+
+        .nft-card:hover .coming-soon-overlay {
+            opacity: 1;
+        }
+
+        .coming-soon-text {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .legendary { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .epic { color: #ff00ff; text-shadow: 0 0 10px rgba(255, 0, 255, 0.5); }
+        .rare { color: #00ffff; text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
+        .uncommon { color: #00ff88; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+        .common { color: #ffffff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-container">
+        <h1 class="gallery-title">AVAXIRON NFT Collection</h1>
+        <div class="gallery-grid" id="nftGrid"></div>
+    </div>
+
+    <script>
+        const rarities = ["Legendary", "Epic", "Rare", "Uncommon", "Common"];
+        const nftGrid = document.getElementById('nftGrid');
+        
+        for(let i = 1; i <= 50; i++) {
+            const rarity = rarities[Math.floor(Math.random() * rarities.length)];
+            const card = document.createElement('div');
+            card.className = `nft-card`;
+            card.innerHTML = `
+                <img src="https://via.placeholder.com/400x400/${Math.floor(Math.random()*16777215).toString(16)}/FFFFFF?text=IronTech+${i}" class="nft-image" alt="IronTech #${i}">
+                <div class="coming-soon-overlay">
+                    <div class="coming-soon-text">COMING SOON</div>
+                </div>
+                <span class="rarity-badge ${rarity.toLowerCase()}">${rarity}</span>
+                <div class="nft-info">
+                    <h3 class="nft-name">IronTech #${i}</h3>
+                </div>
+            `;
+            nftGrid.appendChild(card);
+        }
+    </script>
+</body>
+</html>
+<!-- Add blockchain effects -->
+<div class="blockchain-effects"></div>
+
+<style>
+    /* Blockchain animation styles */
+    .blockchain-effects {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        background: radial-gradient(circle at center, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+    }
+
+    .blockchain-effects::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent 45%, rgba(0, 255, 136, 0.1) 50%, transparent 55%);
+        animation: scanline 4s linear infinite;
+    }
+
+    /* Update existing styles */
+    .nft-card {
+        backdrop-filter: blur(5px);
+        animation: cardFloat 3s ease-in-out infinite;
+        background: linear-gradient(145deg, #1a1a2e, #1a1a2e99);
+    }
+
+    .nft-card::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #00ff88, #00ffff, #00ff88);
+        z-index: -1;
+        border-radius: 22px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .nft-card:hover::before {
+        opacity: 1;
+        animation: borderGlow 2s linear infinite;
+    }
+
+    .nft-image {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .nft-image::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(0, 255, 136, 0.2),
+            transparent
+        );
+        animation: shimmer 3s infinite;
+    }
+
+    /* New animations */
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+
+    @keyframes cardFloat {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-5px) scale(1.02); }
+    }
+
+    @keyframes borderGlow {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+    }
+
+    @keyframes shimmer {
+        0% { left: -100%; }
+        100% { left: 200%; }
+    }
+
+    /* Add matrix rain effect */
+    .matrix-rain {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -2;
+    }
+
+    .rain-column {
+        position: absolute;
+        top: -20px;
+        font-family: monospace;
+        color: rgba(0, 255, 136, 0.2);
+        font-size: 20px;
+        line-height: 1;
+        filter: blur(1px);
+    }
+</style>
+
+<script>
+    // Create matrix rain effect
+    function createMatrixRain() {
+        const container = document.createElement('div');
+        container.className = 'matrix-rain';
+        document.body.appendChild(container);
+
+        const width = window.innerWidth;
+        const columns = Math.floor(width / 20);
+
+        for (let i = 0; i < columns; i++) {
+            const column = document.createElement('div');
+            column.className = 'rain-column';
+            column.style.left = `${i * 20}px`;
+            column.style.animationDelay = `${Math.random() * 2}s`;
+            
+            setInterval(() => {
+                const chars = '01';
+                column.textContent = chars[Math.floor(Math.random() * chars.length)];
+                column.style.opacity = Math.random();
+                column.style.top = `${Math.random() * 100}%`;
+            }, 50 + Math.random() * 200);
+
+            container.appendChild(column);
+        }
+    }
+
+    // Enhanced hover effects for NFT cards
+    document.querySelectorAll('.nft-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const angleX = (y - centerY) / 10;
+            const angleY = (centerX - x) / 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.05, 1.05, 1.05)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+
+    // Initialize effects
+    document.addEventListener('DOMContentLoaded', () => {
+        createMatrixRain();
+    });
+</script>
+</body>

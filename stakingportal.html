@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAXIRON - Advanced Staking Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff3366;
+            --secondary-color: #7289da;
+            --bg-dark: #0f0f23;
+            --bg-darker: rgba(26, 26, 46, 0.95);
+            --text-light: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .page-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Top Banner */
+        .announcement-banner {
+            background: linear-gradient(45deg, rgba(255, 51, 102, 0.1), rgba(114, 137, 218, 0.1));
+            padding: 15px 25px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 2;
+        }
+
+        .banner-icon {
+            font-size: 24px;
+            color: var(--primary-color);
+            animation: pulse 2s infinite;
+        }
+
+        .banner-text {
+            font-weight: 500;
+        }
+
+        .banner-btn {
+            background: rgba(255, 51, 102, 0.2);
+            border: 1px solid var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .banner-btn:hover {
+            background: rgba(255, 51, 102, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .glow-effect {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 51, 102, 0.2),
+                transparent
+            );
+            animation: glowSlide 3s linear infinite;
+        }
+
+        /* Header Section */
+        .staking-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-reactor {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .reactor-core {
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            background: radial-gradient(var(--primary-color), transparent);
+            border-radius: 50%;
+            animation: pulseCore 2s infinite;
+        }
+
+        .reactor-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spinRing 4s linear infinite;
+        }
+
+        .header-title {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .network-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--bg-darker);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 20px rgba(255, 51, 102, 0.2);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        /* Staking Pools */
+        .staking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .pool-card {
+            background: var(--bg-darker);
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .pool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 51, 102, 0.3);
+        }
+
+        .pool-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .pool-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+        }
+
+        .pool-card:hover .pool-icon {
+            transform: rotate(360deg);
+        }
+
+        .pool-title {
+            flex: 1;
+        }
+
+        .pool-title h3 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .duration-badge {
+            background: rgba(255, 51, 102, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid var(--primary-color);
+        }
+
+        .pool-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .pool-stat {
+            text-align: center;
+            padding: 15px;
+            background: rgba(15, 15, 35, 0.5);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .pool-stat:hover {
+            transform: translateY(-5px);
+            background: rgba(15, 15, 35, 0.8);
+        }
+
+        .stat-title {
+            color: var(--text-light);
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .stat-amount {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .pool-actions {
+            margin-top: 25px;
+        }
+
+        .stake-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(15, 15, 35, 0.5);
+            border: 1px solid var(--primary-color);
+            border-radius: 12px;
+            color: white;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stake-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 15px rgba(114, 137, 218, 0.3);
+        }
+
+        .stake-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .stake-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 51, 102, 0.4);
+        }
+
+        /* Coming Soon Overlay */
+        .coming-soon-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .launch-date {
+            font-size: 1.8em;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .countdown-item {
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .countdown-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .countdown-label {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .feature-tag {
+            background: rgba(114, 137, 218, 0.1);
+            border: 1px solid var(--secondary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        @keyframes spinRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes glowSlide {
+            0% { transform: translateX(-50%) rotate(45deg); }
+            100% { transform: translateX(50%) rotate(45deg); }
+        }
+
+        @keyframes pulseCore {
+            0%, 100% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--bg-darker);
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 50px auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+                /* Responsive Design */
+                @media (max-width: 1200px) {
+            .staking-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .pool-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .countdown {
+                flex-wrap: wrap;
+            }
+
+            .header-title {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Announcement Banner -->
+        <div class="announcement-banner">
+            <div class="glow-effect"></div>
+            <div class="banner-content">
+                <i class="fas fa-bullhorn banner-icon"></i>
+                <span class="banner-text">New Elite Staking Pools Coming in Q2 2025! Early Access Registration Open</span>
+            </div>
+            <button class="banner-btn" id="notifyBtn">Get Notified</button>
+        </div>
+
+        <!-- Header Section -->
+        <div class="staking-header">
+            <div class="header-left">
+                <div class="logo-reactor">
+                    <div class="reactor-core"></div>
+                    <div class="reactor-ring"></div>
+                </div>
+                <h1 class="header-title">AVAXIRON Staking Portal</h1>
+            </div>
+            <div class="network-status">
+                <span class="status-dot"></span>
+                Network Active
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value">$15.2M</div>
+                    <div class="stat-label">Total Value Locked</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value">18,432</div>
+                    <div class="stat-label">Active Stakers</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value">2.5M IRON</div>
+                    <div class="stat-label">Total Rewards Distributed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staking Pools -->
+        <div class="staking-grid">
+            <!-- 30 Days Pool -->
+            <div class="pool-card">
+                <div class="pool-header">
+                    <div class="pool-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="pool-title">
+                        <h3>Quick Stake</h3>
+                        <span class="duration-badge">30 Days</span>
+                    </div>
+                </div>
+                <div class="pool-stats">
+                    <div class="pool-stat">
+                        <div class="stat-title">APY</div>
+                        <div class="stat-amount">12.5%</div>
+                    </div>
+                    <div class="pool-stat">
+                        <div class="stat-title">Total Staked</div>
+                        <div class="stat-amount">1.2M IRON</div>
+                    </div>
+                    <div class="pool-stat">
+                        <div class="stat-title">Min Stake</div>
+                        <div class="stat-amount">100 IRON</div>
+                    </div>
+                </div>
+                <div class="pool-actions">
+                    <input type="number" class="stake-input" placeholder="Enter amount to stake" min="100">
+                    <button class="stake-btn">
+                        <i class="fas fa-lock"></i>
+                        <span>Stake Now</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 90 Days Pool -->
+            <div class="pool-card">
+                <div class="pool-header">
+                    <div class="pool-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="pool-title">
+                        <h3>Premium Pool</h3>
+                        <span class="duration-badge">90 Days</span>
+                    </div>
+                </div>
+                <div class="coming-soon-overlay">
+                    <span class="launch-date">Coming Q2 2025</span>
+                    <div class="countdown">
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="days">365</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                    </div>
+                    <div class="feature-tags">
+                        <span class="feature-tag">25% APY</span>
+                        <span class="feature-tag">Weekly Rewards</span>
+                        <span class="feature-tag">NFT Bonus</span>
+                    </div>
+                    <button class="banner-btn">Join Waitlist</button>
+                </div>
+            </div>
+
+            <!-- 360 Days Pool -->
+            <div class="pool-card">
+                <div class="pool-header">
+                    <div class="pool-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="pool-title">
+                        <h3>Elite Pool</h3>
+                        <span class="duration-badge">360 Days</span>
+                    </div>
+                </div>
+                <div class="coming-soon-overlay">
+                    <span class="launch-date">Under Development</span>
+                    <div class="feature-tags">
+                        <span class="feature-tag">40% APY</span>
+                        <span class="feature-tag">Governance Rights</span>
+                        <span class="feature-tag">VIP Access</span>
+                    </div>
+                    <button class="banner-btn">Stay Tuned</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Modal -->
+        <div class="modal" id="notificationModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Stay Updated!</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Get notified when new staking pools launch!</p>
+                    <div class="pool-actions">
+                        <input type="email" class="stake-input" placeholder="Enter your email">
+                        <button class="stake-btn">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Functionality
+        const modal = document.getElementById('notificationModal');
+        const notifyBtn = document.getElementById('notifyBtn');
+        const closeBtn = document.querySelector('.close-modal');
+        const waitlistBtns = document.querySelectorAll('.banner-btn');
+
+        function toggleModal() {
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        notifyBtn.addEventListener('click', toggleModal);
+        closeBtn.addEventListener('click', toggleModal);
+        waitlistBtns.forEach(btn => btn.addEventListener('click', toggleModal));
+
+        window.onclick = (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Countdown Timer
+        function updateCountdown() {
+            const launchDate = new Date('2025-04-01').getTime();
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById('days').textContent = days;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Stake Button Animation
+        document.querySelectorAll('.stake-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    alert('Staking feature coming soon! Currently under development.');
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
+<style>
+    /* Update these animation keyframes for smoother transitions */
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes spinRing {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    @keyframes glowSlide {
+        0% { 
+            transform: translateX(-100%) rotate(45deg);
+            opacity: 0;
+        }
+        50% { opacity: 0.5; }
+        100% { 
+            transform: translateX(100%) rotate(45deg);
+            opacity: 0;
+        }
+    }
+
+    @keyframes pulseCore {
+        0% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 0.6; }
+    }
+
+    /* Add these new smooth transition properties */
+    .pool-card {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, box-shadow;
+    }
+
+    .pool-icon {
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
+    }
+
+    .stake-btn {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, box-shadow;
+    }
+
+    .stat-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, box-shadow;
+    }
+
+    /* Update animation timings and properties */
+    .banner-icon {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .reactor-ring {
+        animation: spinRing 8s linear infinite;
+    }
+
+    .glow-effect {
+        animation: glowSlide 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .status-dot {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+</style>
+
+<!-- Update the JavaScript for smoother button animations -->
+<script>
+    // Update Stake Button Animation
+    document.querySelectorAll('.stake-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.97)';
+            this.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                alert('Staking feature coming soon! Currently under development.');
+            }, 150);
+        });
+    });
+
+    // Smooth Modal Transitions
+    function toggleModal() {
+        if (modal.style.display === 'block') {
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.opacity = '1';
+            }, 300);
+        } else {
+            modal.style.display = 'block';
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.opacity = '1';
+            }, 10);
+        }
+    }
+</script>
+        <!-- NFT Staking Section -->
+        <div class="nft-staking-section">
+            <div class="section-title">
+                <h2>NFT Power Staking</h2>
+                <div class="title-underline"></div>
+            </div>
+
+            <div class="nft-grid">
+                <!-- Legendary NFT Card -->
+                <div class="nft-boost-card legendary">
+                    <div class="nft-boost-header">
+                        <i class="fas fa-crown"></i>
+                        <h3>Legendary Boost</h3>
+                    </div>
+                    <div class="nft-preview">
+                        <div class="nft-image-container">
+                            <div class="nft-glow"></div>
+                        </div>
+                        <div class="boost-badge">+40% APY</div>
+                    </div>
+                    <div class="nft-details">
+                        <div class="boost-stat">
+                            <span>Rarity</span>
+                            <span class="legendary-text">Legendary</span>
+                        </div>
+                        <div class="boost-stat">
+                            <span>Power Level</span>
+                            <span>Level 3</span>
+                        </div>
+                    </div>
+                    <button class="nft-stake-btn">
+                        <i class="fas fa-bolt"></i>
+                        Boost Stake
+                    </button>
+                </div>
+
+                <!-- Rare NFT Card -->
+                <div class="nft-boost-card rare">
+                    <div class="nft-boost-header">
+                        <i class="fas fa-gem"></i>
+                        <h3>Rare Boost</h3>
+                    </div>
+                    <div class="nft-preview">
+                        <div class="nft-image-container">
+                            <div class="nft-glow"></div>
+                        </div>
+                        <div class="boost-badge">+25% APY</div>
+                    </div>
+                    <div class="nft-details">
+                        <div class="boost-stat">
+                            <span>Rarity</span>
+                            <span class="rare-text">Rare</span>
+                        </div>
+                        <div class="boost-stat">
+                            <span>Power Level</span>
+                            <span>Level 2</span>
+                        </div>
+                    </div>
+                    <button class="nft-stake-btn">
+                        <i class="fas fa-bolt"></i>
+                        Boost Stake
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .nft-staking-section {
+                margin: 50px 0;
+                padding: 30px;
+                background: rgba(15, 15, 35, 0.5);
+                border-radius: 20px;
+                border: 1px solid var(--primary-color);
+            }
+
+            .nft-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+                margin-top: 30px;
+            }
+
+            .nft-boost-card {
+                background: var(--bg-darker);
+                border-radius: 20px;
+                padding: 25px;
+                position: relative;
+                overflow: hidden;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                will-change: transform, box-shadow;
+            }
+
+            .nft-boost-card.legendary {
+                border: 2px solid #ffd700;
+            }
+
+            .nft-boost-card.rare {
+                border: 2px solid #7289da;
+            }
+
+            .nft-boost-card:hover {
+                transform: translateY(-10px);
+            }
+
+            .nft-boost-header {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+
+            .nft-boost-header i {
+                font-size: 2em;
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .nft-preview {
+                position: relative;
+                height: 200px;
+                margin: 20px 0;
+                border-radius: 15px;
+                overflow: hidden;
+            }
+
+            .nft-image-container {
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                position: relative;
+                overflow: hidden;
+            }
+
+            .nft-glow {
+                position: absolute;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(
+                    45deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent
+                );
+                animation: rotateGlow 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                transform-origin: center;
+            }
+
+            @keyframes rotateGlow {
+                0% {
+                    transform: rotate(0deg) scale(1);
+                    opacity: 0;
+                }
+                50% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: rotate(360deg) scale(1);
+                    opacity: 0;
+                }
+            }
+
+            .boost-badge {
+                position: absolute;
+                bottom: 15px;
+                right: 15px;
+                background: rgba(0, 0, 0, 0.8);
+                padding: 8px 15px;
+                border-radius: 20px;
+                font-weight: 600;
+                color: #ffd700;
+                border: 1px solid #ffd700;
+            }
+
+            .nft-details {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+                margin: 20px 0;
+            }
+
+            .boost-stat {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+                padding: 10px;
+                background: rgba(15, 15, 35, 0.5);
+                border-radius: 10px;
+            }
+
+            .legendary-text {
+                color: #ffd700;
+                font-weight: 600;
+            }
+
+            .rare-text {
+                color: #7289da;
+                font-weight: 600;
+            }
+
+            .nft-stake-btn {
+                width: 100%;
+                padding: 15px;
+                border: none;
+                border-radius: 12px;
+                color: white;
+                font-weight: 600;
+                font-size: 1.1em;
+                cursor: pointer;
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                will-change: transform;
+            }
+
+            .nft-stake-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(255, 51, 102, 0.3);
+            }
+        </style>
+
+        <script>
+            // NFT Stake Button Animation
+            document.querySelectorAll('.nft-stake-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.97)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                        alert('NFT Staking coming soon! Stay tuned for launch.');
+                    }, 150);
+                });
+            });
+        </script>
+                <!-- Advanced Staking Features -->
+                <div class="advanced-features">
+                    <div class="section-title">
+                        <h2>Advanced Staking Features</h2>
+                        <div class="title-underline"></div>
+                    </div>
+        
+                    <div class="features-grid">
+                        <!-- Liquidity Mining -->
+                        <div class="feature-box liquidity">
+                            <div class="feature-glow"></div>
+                            <div class="feature-icon">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <h3>Liquidity Mining</h3>
+                            <div class="feature-stats">
+                                <div class="stat-row">
+                                    <span>Pool Size</span>
+                                    <span>5.2M IRON</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span>APY Range</span>
+                                    <span>45% - 120%</span>
+                                </div>
+                                <div class="liquidity-meter">
+                                    <div class="meter-fill" style="width: 75%"></div>
+                                    <span>75% Utilized</span>
+                                </div>
+                            </div>
+                            <button class="feature-action-btn">
+                                <span class="btn-glow"></span>
+                                <i class="fas fa-plus-circle"></i>
+                                Add Liquidity
+                            </button>
+                        </div>
+        
+                        <!-- Yield Farming -->
+                        <div class="feature-box farming">
+                            <div class="feature-glow"></div>
+                            <div class="feature-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h3>Yield Farming</h3>
+                            <div class="farming-pools">
+                                <div class="farm-pool active">
+                                    <div class="pool-header">
+                                        <span>IRON-AVAX</span>
+                                        <span class="apy">85% APY</span>
+                                    </div>
+                                    <div class="pool-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 65%"></div>
+                                        </div>
+                                        <span>$2.1M TVL</span>
+                                    </div>
+                                </div>
+                                <div class="farm-pool">
+                                    <div class="pool-header">
+                                        <span>IRON-USDT</span>
+                                        <span class="apy">65% APY</span>
+                                    </div>
+                                    <div class="pool-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 45%"></div>
+                                        </div>
+                                        <span>$1.5M TVL</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="feature-action-btn">
+                                <span class="btn-glow"></span>
+                                <i class="fas fa-tractor"></i>
+                                Start Farming
+                            </button>
+                        </div>
+        
+                        <!-- Governance Staking -->
+                        <div class="feature-box governance">
+                            <div class="feature-glow"></div>
+                            <div class="feature-icon">
+                                <i class="fas fa-landmark"></i>
+                            </div>
+                            <h3>Governance Staking</h3>
+                            <div class="governance-info">
+                                <div class="power-meter">
+                                    <svg viewBox="0 0 100 100" class="progress-ring">
+                                        <circle class="progress-ring-circle" cx="50" cy="50" r="45"/>
+                                    </svg>
+                                    <div class="power-level">
+                                        <span class="level">Level 3</span>
+                                        <span class="power">Power: 2500</span>
+                                    </div>
+                                </div>
+                                <div class="governance-stats">
+                                    <div class="gov-stat">
+                                        <span>Voting Power</span>
+                                        <span>2.5x</span>
+                                    </div>
+                                    <div class="gov-stat">
+                                        <span>Proposal Rights</span>
+                                        <span>Enabled</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="feature-action-btn">
+                                <span class="btn-glow"></span>
+                                <i class="fas fa-vote-yea"></i>
+                                Participate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        
+                <style>
+                    .advanced-features {
+                        margin: 50px 0;
+                        padding: 40px 20px;
+                    }
+        
+                    .features-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                        gap: 30px;
+                        margin-top: 40px;
+                    }
+        
+                    .feature-box {
+                        background: rgba(20, 20, 40, 0.95);
+                        border-radius: 20px;
+                        padding: 30px;
+                        position: relative;
+                        overflow: hidden;
+                        border: 1px solid rgba(255, 51, 102, 0.3);
+                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+        
+                    .feature-box:hover {
+                        transform: translateY(-10px);
+                        border-color: var(--primary-color);
+                    }
+        
+                    .feature-glow {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: radial-gradient(circle at 50% 50%, 
+                            rgba(255, 51, 102, 0.1),
+                            transparent 70%);
+                        opacity: 0;
+                        transition: opacity 0.3s ease;
+                    }
+        
+                    .feature-box:hover .feature-glow {
+                        opacity: 1;
+                    }
+        
+                    .feature-icon {
+                        width: 60px;
+                        height: 60px;
+                        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                        border-radius: 15px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 20px;
+                    }
+        
+                    .feature-icon i {
+                        font-size: 28px;
+                        color: white;
+                    }
+        
+                    .feature-box h3 {
+                        font-size: 1.5em;
+                        margin-bottom: 20px;
+                        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    }
+        
+                    .feature-stats {
+                        margin: 20px 0;
+                    }
+        
+                    .stat-row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+                        color: var(--text-light);
+                    }
+        
+                    .liquidity-meter {
+                        background: rgba(15, 15, 35, 0.5);
+                        border-radius: 10px;
+                        height: 8px;
+                        margin-top: 15px;
+                        position: relative;
+                    }
+        
+                    .meter-fill {
+                        height: 100%;
+                        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                        border-radius: 10px;
+                        transition: width 1s ease;
+                    }
+        
+                    .farming-pools {
+                        margin: 20px 0;
+                    }
+        
+                    .farm-pool {
+                        background: rgba(15, 15, 35, 0.5);
+                        border-radius: 15px;
+                        padding: 15px;
+                        margin-bottom: 15px;
+                    }
+        
+                    .farm-pool.active {
+                        border: 1px solid var(--primary-color);
+                    }
+        
+                    .pool-header {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+                    }
+        
+                    .apy {
+                        color: var(--primary-color);
+                        font-weight: 600;
+                    }
+        
+                    .pool-progress {
+                        position: relative;
+                    }
+        
+                    .progress-bar {
+                        height: 6px;
+                        background: rgba(15, 15, 35, 0.5);
+                        border-radius: 3px;
+                        overflow: hidden;
+                    }
+        
+                    .progress {
+                        height: 100%;
+                        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                        transition: width 1s ease;
+                    }
+        
+                    .governance-info {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        margin: 20px 0;
+                    }
+        
+                    .power-meter {
+                        position: relative;
+                        width: 120px;
+                        height: 120px;
+                        margin-bottom: 20px;
+                    }
+        
+                    .progress-ring {
+                        transform: rotate(-90deg);
+                    }
+        
+                    .progress-ring-circle {
+                        fill: none;
+                        stroke: var(--primary-color);
+                        stroke-width: 5;
+                        stroke-dasharray: 283;
+                        stroke-dashoffset: 70;
+                        transition: stroke-dashoffset 1s ease;
+                    }
+        
+                    .power-level {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        text-align: center;
+                    }
+        
+                    .level {
+                        font-size: 1.2em;
+                        font-weight: 600;
+                        color: var(--primary-color);
+                        display: block;
+                    }
+        
+                    .power {
+                        font-size: 0.9em;
+                        color: var(--text-light);
+                    }
+        
+                    .governance-stats {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 15px;
+                        width: 100%;
+                    }
+        
+                    .gov-stat {
+                        background: rgba(15, 15, 35, 0.5);
+                        padding: 10px;
+                        border-radius: 10px;
+                        text-align: center;
+                    }
+        
+                    .gov-stat span:first-child {
+                        display: block;
+                        font-size: 0.9em;
+                        color: var(--text-light);
+                        margin-bottom: 5px;
+                    }
+        
+                    .gov-stat span:last-child {
+                        font-weight: 600;
+                        color: var(--primary-color);
+                    }
+        
+                    .feature-action-btn {
+                        width: 100%;
+                        padding: 15px;
+                        border: none;
+                        border-radius: 12px;
+                        color: white;
+                        font-weight: 600;
+                        font-size: 1.1em;
+                        cursor: pointer;
+                        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                        position: relative;
+                        overflow: hidden;
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+        
+                    .btn-glow {
+                        position: absolute;
+                        width: 200%;
+                        height: 100%;
+                        background: linear-gradient(
+                            45deg,
+                            transparent,
+                            rgba(255, 255, 255, 0.2),
+                            transparent
+                        );
+                        transform: translateX(-100%);
+                    }
+        
+                    .feature-action-btn:hover .btn-glow {
+                        transform: translateX(100%);
+                        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+        
+                    @media (max-width: 768px) {
+                        .features-grid {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                </style>
+        
+                <script>
+                    // Animate feature buttons
+                    document.querySelectorAll('.feature-action-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            this.style.transform = 'scale(0.97)';
+                            setTimeout(() => {
+                                this.style.transform = 'scale(1)';
+                                alert('Advanced feature coming soon! Stay tuned for launch.');
+                            }, 150);
+                        });
+                    });
+        
+                    // Animate progress on scroll
+                    const animateOnScroll = () => {
+                        const features = document.querySelector('.advanced-features');
+                        const rect = features.getBoundingClientRect();
+                        
+                        if (rect.top < window.innerHeight && rect.bottom > 0) {
+                            document.querySelectorAll('.meter-fill, .progress').forEach(el => {
+                                el.style.transition = 'width 1.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                            });
+                        }
+                    };
+        
+                    window.addEventListener('scroll', animateOnScroll);
+                    animateOnScroll();
+                </script>
+                        <!-- Staking Animation Background -->
+        <div class="staking-particles"></div>
+
+        <style>
+            .staking-particles {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: -1;
+                overflow: hidden;
+            }
+
+            .particle {
+                position: absolute;
+                background: radial-gradient(circle at center,
+                    rgba(255, 51, 102, 0.8),
+                    rgba(114, 137, 218, 0.3),
+                    transparent);
+                border-radius: 50%;
+                animation: floatParticle var(--duration) ease-in-out infinite;
+                opacity: 0;
+            }
+
+            @keyframes floatParticle {
+                0% {
+                    transform: translateY(100vh) scale(0);
+                    opacity: 0;
+                }
+                50% {
+                    opacity: var(--opacity);
+                }
+                100% {
+                    transform: translateY(-100px) scale(1);
+                    opacity: 0;
+                }
+            }
+        </style>
+
+        <script>
+            // Staking Particles Animation
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random properties
+                const size = Math.random() * 50 + 20;
+                const left = Math.random() * window.innerWidth;
+                const duration = Math.random() * 4 + 3;
+                const opacity = Math.random() * 0.5 + 0.2;
+                
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${left}px;
+                    --duration: ${duration}s;
+                    --opacity: ${opacity};
+                `;
+                
+                document.querySelector('.staking-particles').appendChild(particle);
+                
+                // Remove particle after animation
+                setTimeout(() => {
+                    particle.remove();
+                }, duration * 1000);
+            }
+
+            // Create particles periodically
+            setInterval(createParticle, 300);
+
+            // Initial particles
+            for(let i = 0; i < 10; i++) {
+                setTimeout(createParticle, i * 200);
+            }
+        </script>
